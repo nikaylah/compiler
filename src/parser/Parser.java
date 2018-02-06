@@ -352,135 +352,127 @@ public class Parser {
 				simple_part();
 			}
 		}
-		
-	    // How do we match addop??
-		    public void simple_part() {
-		        if (isAddOp(lookahead.getTokenType())) {
-		            match(lookahead.getTokenType());
-		            term();
-		            simple_part();
-		        } else {
-		            // lambda case
-		        }
-		    }
-		
-		    public void term() {
-		        factor();
-		        term_part();
-		    }
-		
-		    // How do we match mulop??
-		    public void term_part() {
-		        if (isMulOp(lookahead.getTokenType())) {
-		            match(lookahead.getTokenType());
-		            factor();
-		            term_part();
-		        } else {
-		            // lambda case
-		        }
-		    }
-		
-		    public void factor() {
-		        if (lookahead.getTokenType() == TokenType.ID) {
-		            match(Type.ID);
-		            if (lookahead.getTokenType() == TokenType.LEFTBRACE) {
-		                match(TokenType.LEFTBRACE);
-		                expression();
-		                if (lookahead.getTokenType() == TokenType.RIGHTBRACE) {
-		                    match(TokenType.RIGHTBRACE);
-		                } else
-		                    error("factor #1");
-		            } else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
-		                match(TokenType.LEFTPARA);
-		                expression_list();
-		                if (lookahead.getTokenType() == TokenType.RIGHTPARA)
-		                    match(TokenType.RIGHTPARA);
-		                else
-		                    error("factor #2");
-		            }
-		        } else if (lookahead.getTokenType() == TokenType.NUMBER)
-		            match(TokenType.NUMBER);
-		        else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
-		            match(TokenType.LEFTPARA);
-		            expression();
-		            if (lookahead.getTokenType() == TokenType.RIGHTPARA)
-		                match(TokenType.RIGHTPARA);
-		            else
-		                error("factor #3");
-		        } else if (lookahead.getTokenType() == TokenType.NOT) {
-		            match(TokenType.NOT);
-		            factor();
-		        } else
-		            error("factor #4");
-		    }
-		
-		    public void sign() {
-		        if (lookahead.getTokenType() == TokenType.PLUS)
-		            match(TokenType.PLUS);
-		        else if (lookahead.getTokenType() == TokenType.MINUS)
-		            match(TokenType.MINUS);
-		        else
-		            error("sign");
-		    }
-		
-		
-		    public boolean isRelOp(TokenType t) {
-		        if (t == TokenType.EQUAL || t == TokenType.NOTEQ || t == TokenType.LESSTHAN || t == TokenType.LESSTHANEQUAL || t == TokenType.GREATERTHANEQUAL || t == TokenType.GREATERTHAN)
-		            return true;
-		        return false;
-		    }
-		
-		    public boolean isAddOp(TokenType t) {
-		        if (t == TokenType.PLUS || t == TokenType.MINUS || t == TokenType.OR)
-		            return true;
-		        return false;
-		    }
-		
-		    public boolean isMulOp(TokenType t) {
-		        if (t == TokenType.ASTERISK || t == TokenType.SLASH || t == TokenType.DIV || t == TokenType.MOD || t == TokenType.AND)
-		            return true;
-		        return false;
-		    }
-		
-		    /**
-		     * Matches the expected token.
-		     * If the current token in the input stream from the scanner
-		     * matches the token that is expected, the current token is
-		     * consumed and the scanner will move on to the next token
-		     * in the input.
-		     * The null at the end of the file returned by the
-		     * scanner is replaced with a fake token containing no
-		     * type.
-		     *
-		     * @param expected The expected token type.
-		     */
-		    public void match(TokenType expected) {
-		        System.out.println("Match " + expected + " " + lookahead.getLexeme());
-		        if (this.lookahead.getTokenType() == expected) {
-		            try {
-		                this.lookahead = scanner.nextToken();
-		                if (this.lookahead == null) {
-		                    this.lookahead = new Token("End of File", null);
-		                }
-		            } catch (IOException ex) {
-		                error("Scanner exception");
-		            }
-		        } else {
-		            error("Match of " + expected + " found " + this.lookahead.getTokenType()
-		                    + " instead.");
-		        }
-		    }
-		
-		    /**
-		     * Errors out of the parser.
-		     * Prints an error message and then exits the program.
-		     *
-		     * @param message The error message to print.
-		     */
-		    public void error(String message) {
-		        System.out.println("Error " + message);
-		        System.exit(1);
-		    }
+
+		// How do we match addop??
+		public void simple_part() {
+			if (isAddOp(lookahead.getTokenType())) {
+				match(lookahead.getTokenType());
+				term();
+				simple_part();
+			} else {
+				// lambda case
+			}
+		}
+
+		public void term() {
+			factor();
+			term_part();
+		}
+
+		// How do we match mulop??
+		public void term_part() {
+			if (isMulOp(lookahead.getTokenType())) {
+				match(lookahead.getTokenType());
+				factor();
+				term_part();
+			} else {
+				// lambda case
+			}
+		}
+
+		public void factor() {
+			if (lookahead.getTokenType() == TokenType.ID) {
+				match(Type.ID);
+				if (lookahead.getTokenType() == TokenType.LEFTBRACE) {
+					match(TokenType.LEFTBRACE);
+					expression();
+					if (lookahead.getTokenType() == TokenType.RIGHTBRACE) {
+						match(TokenType.RIGHTBRACE);
+					} else
+						error("factor #1");
+				} else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
+					match(TokenType.LEFTPARA);
+					expression_list();
+					if (lookahead.getTokenType() == TokenType.RIGHTPARA)
+						match(TokenType.RIGHTPARA);
+					else
+						error("factor #2");
+				}
+			} else if (lookahead.getTokenType() == TokenType.NUMBER)
+				match(TokenType.NUMBER);
+			else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
+				match(TokenType.LEFTPARA);
+				expression();
+				if (lookahead.getTokenType() == TokenType.RIGHTPARA)
+					match(TokenType.RIGHTPARA);
+				else
+					error("factor #3");
+			} else if (lookahead.getTokenType() == TokenType.NOT) {
+				match(TokenType.NOT);
+				factor();
+			} else
+				error("factor #4");
+		}
+
+		public void sign() {
+			if (lookahead.getTokenType() == TokenType.PLUS)
+				match(TokenType.PLUS);
+			else if (lookahead.getTokenType() == TokenType.MINUS)
+				match(TokenType.MINUS);
+			else
+				error("sign");
+		}
+
+
+		public boolean isRelOp(TokenType t) {
+			if (t == TokenType.EQUAL || t == TokenType.NOTEQ || t == TokenType.LESSTHAN || t == TokenType.LESSTHANEQUAL || t == TokenType.GREATERTHANEQUAL || t == TokenType.GREATERTHAN)
+				return true;
+			return false;
+		}
+
+		public boolean isAddOp(TokenType t) {
+			if (t == TokenType.PLUS || t == TokenType.MINUS || t == TokenType.OR)
+				return true;
+			return false;
+		}
+
+		public boolean isMulOp(TokenType t) {
+			if (t == TokenType.ASTERISK || t == TokenType.SLASH || t == TokenType.DIV || t == TokenType.MOD || t == TokenType.AND)
+				return true;
+			return false;
+		}
+
+		/**
+		 * matches the expected token
+		 *
+		 * @param expected the expected tokenType.
+		 */
+		public void match(TokenType expected) {
+			System.out.println("Match " + expected + " " + lookahead.getLexeme());
+			if (this.lookahead.getTokenType() == expected) {
+				try {
+					this.lookahead = scanner.nextToken();
+					if (this.lookahead == null) {
+						this.lookahead = new Token("End of File", null);
+					}
+				} catch (IOException ex) {
+					error("Scanner exception");
+				}
+			} else {
+				error("Match of " + expected + " found " + this.lookahead.getTokenType()
+				+ " instead.");
+			}
+		}
+
+		/**
+		 * Prints an error message and then exits the program.
+		 *
+		 * @param message prints error message
+		 */
+		public void error(String message) {
+			System.out.println("Error " + message);
+			System.exit(1);
+		}
 
 
 
