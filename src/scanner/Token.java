@@ -9,10 +9,12 @@ public class Token {
 	
     public String lexeme;
     public TokenType type;
+    public int lineNumber;
     
-    public Token( String l, TokenType t) {
+    public Token( String l, TokenType t, int lineNumber) {
         this.lexeme = l;
         this.type = t;
+        this.lineNumber = lineNumber;
     }
     
     public String getLexeme(){
@@ -23,13 +25,17 @@ public class Token {
     	return this.type;
     }
 
+    public int getLineNumber(){
+    	return lineNumber;
+    }
     
 
 	@Override
 	public String toString() {
-		return "TokenType [lexeme=" + lexeme + ", type=" + type + "]";
+		return "TokenType [lexeme=" + lexeme + ", type=" + type + " lineNumber=" + lineNumber +"]";
 	}
 
+	
 	//Fix
     @Override
     public boolean equals(Object obj) {

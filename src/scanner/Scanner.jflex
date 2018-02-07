@@ -10,63 +10,37 @@ import java.util.HashMap;
 
 %%
 
+
+
+/*JFelx Directives */
+
+
 %class Scanner /* Name of java file */
 %function nextToken /* Renames the yylex() function */
 %unicode
 %public
 %type TokenType
+%line  /* turn on line counting for parser */
+%column /* returns one end of the file*/
 
 %eofval{
 	return null;
 %eofval}
 
 %{
-	private HashMap<String, TokenType> Types;
+/* returns current line number*/
+ public int getLine() { return yyline; }
+ 
+ 
+ /* returns current column number */
+ public int getColumn() { return yycolumn; }
+
+ LookupTable LT = new LookupTable();
 %}
 
-%init{
-    types = new HashMap<>();
-    types.put("and", Type.AND);
-    types.put("array", Type.ARRAY);
-    types.put("begin", Type.BEGIN);
-    types.put("div", Type.DIV);
-    types.put("do", Type.DO);
-    types.put("else", Type.ELSE);
-    types.put("end", Type.END);
-    types.put("function", Type.FUNCTION);
-    types.put("if", Type.IF);
-    types.put("integer", Type.INTEGER);
-    types.put("mod", Type.MOD);
-    types.put("not", Type.NOT);
-    types.put("of", Type.OF);
-    types.put("or", Type.OR);
-    types.put("procedure", Type.PROCEDURE);
-    types.put("program", Type.PROGRAM);
-    types.put("real", Type.REAL);
-    types.put("then", Type.THEN);
-    types.put("var", Type.VAR);
-    types.put("while", Type.WHILE);
-    types.put(";", Type.SEMICOLON);
-    types.put(",", Type.COMMA);
-    types.put(".", Type.PERIOD);
-    types.put(":", Type.COLON);
-    types.put("[", Type.LEFTBRACE);
-    types.put("]", Type.RIGHTBRACE);
-    types.put("(", Type.LEFTPARA);
-    types.put(")", Type.RIGHTPARA);
-    types.put("+", Type.PLUS);
-    types.put("-", Type.MINUS);
-    types.put("=", Type.EQUAL);
-    types.put("<>", Type.DIAMOND);
-    types.put("<", Type.LESSTHAN);
-    types.put("<=", Type.LESSTHANEQUAL);
-    types.put(">", Type.GREATERTHAN);
-    types.put(">=", Type.GREATERTHANEQUAL);
-    types.put("*", Type.ASTERISK);
-    types.put("/", Type.SLASH);
-    types.put(":=", Type.ASSIGN);
-%init}
-
+%{
+	private HashMap<String, TokenType> Types;
+%}
 
 //Patterns
 other               = .
