@@ -3,21 +3,24 @@ package parser;
 import scanner.Scanner;
 import scanner.Token;
 import scanner.TokenType;
-import scanner.Type;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.io.StringReader;
 
 /**
- * @author nikaylahwoody This parser will recognize whether an input string of
- *         tokens is a valid Mini-Pascal program as defined in the grammer
+ * @author nikaylahwoody 
+ * This parser will recognize whether an input string of
+ * tokens is a valid Mini-Pascal program as defined in the grammer
  */
 public class Parser {
 
 	// Instance Variables
-	private TokenType lookahead;
+	private Token lookahead;
 	private Scanner scanner;
 
 	// Constructors
@@ -72,7 +75,7 @@ public class Parser {
 	}
 
 	public void identifier_list() {
-		if (lookahead.getTokenType == TokenType.ID) {
+		if (lookahead.getTokenType() == TokenType.ID) {
 			match(TokenType.ID);
 			if (lookahead.getTokenType() == TokenType.COMMA) {
 				match(TokenType.COMMA);
@@ -84,10 +87,10 @@ public class Parser {
 	}
 
 	public void declarations() {
-		if (lookahead.getTokenType == TokenType.VAR) {
+		if (lookahead.getTokenType() == TokenType.VAR) {
 			match(TokenType.VAR);
 			identifier_list();
-			if (lookahead.getTokenType == TokenType.COLON) {
+			if (lookahead.getTokenType() == TokenType.COLON) {
 				match(TokenType.COLON);
 				type();// reevaluate this one
 				if (lookahead.getTokenType() == TokenType.SEMICOLON) {
@@ -111,7 +114,7 @@ public class Parser {
 					if (lookahead.getTokenType() == TokenType.COLON) {
 						match(TokenType.COLON);
 						if (lookahead.getTokenType() == TokenType.NUMBER) {
-							match(Type.NUMBER);
+							match(TokenType.NUMBER);
 							if (lookahead.getTokenType() == TokenType.RIGHTBRACE) {
 								match(TokenType.RIGHTBRACE);
 								if (lookahead.getTokenType() == TokenType.OF) {
@@ -147,8 +150,8 @@ public class Parser {
 	public void subprogram_declarations() {
 		if (lookahead.getTokenType() == TokenType.FUNCTION || lookahead.getTokenType() == TokenType.PROCEDURE) {
 			subprogram_declaration();
-			if (lookahead.getTokenType() == TokenType.SEMI) {
-				match(TokenType.SEMI);
+			if (lookahead.getTokenType() == TokenType.SEMICOLON) {
+				match(TokenType.SEMICOLON);
 				subprogram_declarations();
 			} else
 				error("subprogram_declarations #2");
@@ -156,7 +159,7 @@ public class Parser {
 			error("subprogram_declarations");
 		}
 
-
+	}
 
 
 
@@ -171,14 +174,14 @@ public class Parser {
 		public void subprogram_head() {
 			if (lookahead.getTokenType() == TokenType.FUNCTION) {
 				match(TokenType.FUNCTION);
-				if (lookahead.getTokenType() == TokeknType.ID) {
+				if (lookahead.getTokenType() == TokenType.ID) {
 					match(TokenType.ID);
 					arguments();
 					if (lookahead.getTokenType() == TokenType.COLON) {
 						match(TokenType.COLON);
 						standard_type();
-						if (lookahead.getTokenType() == TokenType.SEMI)
-							match(TokenType.SEMI);
+						if (lookahead.getTokenType() == TokenType.SEMICOLON)
+							match(TokenType.SEMICOLON);
 						else
 							error("subprogram_head #4");
 					} else
@@ -190,8 +193,8 @@ public class Parser {
 				if (lookahead.getTokenType() == TokenType.ID) {
 					match(TokenType.ID);
 					arguments();
-					if (lookahead.getTokenType() == TokenType.SEMI)
-						match(TokenType.SEMI);
+					if (lookahead.getTokenType() == TokenType.SEMICOLON)
+						match(TokenType.SEMICOLON);
 					else
 						error("subprogram_head #6");
 				} else
@@ -220,7 +223,7 @@ public class Parser {
 				if (lookahead.getTokenType() == TokenType.COLON) {
 					match(TokenType.COLON);
 					type();
-					if (lookahead.getType() == TokenType.SEMICOLON) {
+					if (lookahead.getTokenType() == TokenType.SEMICOLON) {
 						match(TokenType.SEMICOLON);
 						parameter_list();
 					}
@@ -382,7 +385,7 @@ public class Parser {
 
 		public void factor() {
 			if (lookahead.getTokenType() == TokenType.ID) {
-				match(Type.ID);
+				match(TokenType.ID);
 				if (lookahead.getTokenType() == TokenType.LEFTBRACE) {
 					match(TokenType.LEFTBRACE);
 					expression();
@@ -425,7 +428,7 @@ public class Parser {
 
 
 		public boolean isRelOp(TokenType t) {
-			if (t == TokenType.EQUAL || t == TokenType.NOTEQ || t == TokenType.LESSTHAN || t == TokenType.LESSTHANEQUAL || t == TokenType.GREATERTHANEQUAL || t == TokenType.GREATERTHAN)
+			if (t == TokenType.EQUAL || t == TokenType.NOTEQUAL || t == TokenType.LESSTHAN || t == TokenType.LESSTHANEQUAL || t == TokenType.GREATERTHANEQUAL || t == TokenType.GREATERTHAN)
 				return true;
 			return false;
 		}
@@ -453,7 +456,7 @@ public class Parser {
 				try {
 					this.lookahead = scanner.nextToken();
 					if (this.lookahead == null) {
-						this.lookahead = new Token("End of File", null);
+						this.lookahead = new Token("End of File", null, 0); //*****
 					}
 				} catch (IOException ex) {
 					error("Scanner exception");
