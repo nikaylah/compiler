@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="en-us" xml:lang="en-us">
+<head>
+    <title>CSC451_2017SEM2-A: Simple pascal</title>
+    <link rel="shortcut icon" href="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/theme/1516043685/favicon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="moodle, CSC451_2017SEM2-A: Simple pascal" />
+<link rel="stylesheet" type="text/css" href="https://moodle.augsburg.edu/moodle2017/theme/yui_combo.php?rollup/3.17.2/yui-moodlesimple-min.css" /><script id="firstthemesheet" type="text/css">/** Required in order to fix style inclusion problems in IE with YUI **/</script><link rel="stylesheet" type="text/css" href="https://moodle.augsburg.edu/moodle2017/theme/styles.php/augsburg/1516043685/all" />
+<script type="text/javascript">
+//<![CDATA[
+var M = {}; M.yui = {};
+M.pageloadstarttime = new Date();
+M.cfg = {"wwwroot":"https:\/\/moodle.augsburg.edu\/moodle2017","sesskey":"Kcqp3U1esR","themerev":"1516043685","slasharguments":1,"theme":"augsburg","iconsystemmodule":"core\/icon_system_standard","jsrev":"1515167977","admin":"admin","svgicons":true,"usertimezone":"America\/Chicago","contextid":158266};var yui1ConfigFn = function(me) {if(/-skin|reset|fonts|grids|base/.test(me.name)){me.type='css';me.path=me.path.replace(/\.js/,'.css');me.path=me.path.replace(/\/yui2-skin/,'/assets/skins/sam/yui2-skin')}};
+var yui2ConfigFn = function(me) {var parts=me.name.replace(/^moodle-/,'').split('-'),component=parts.shift(),module=parts[0],min='-min';if(/-(skin|core)$/.test(me.name)){parts.pop();me.type='css';min=''}
+if(module){var filename=parts.join('-');me.path=component+'/'+module+'/'+filename+min+'.'+me.type}else{me.path=component+'/'+component+'.'+me.type}};
+YUI_config = {"debug":false,"base":"https:\/\/moodle.augsburg.edu\/moodle2017\/lib\/yuilib\/3.17.2\/","comboBase":"https:\/\/moodle.augsburg.edu\/moodle2017\/theme\/yui_combo.php?","combine":true,"filter":null,"insertBefore":"firstthemesheet","groups":{"yui2":{"base":"https:\/\/moodle.augsburg.edu\/moodle2017\/lib\/yuilib\/2in3\/2.9.0\/build\/","comboBase":"https:\/\/moodle.augsburg.edu\/moodle2017\/theme\/yui_combo.php?","combine":true,"ext":false,"root":"2in3\/2.9.0\/build\/","patterns":{"yui2-":{"group":"yui2","configFn":yui1ConfigFn}}},"moodle":{"name":"moodle","base":"https:\/\/moodle.augsburg.edu\/moodle2017\/theme\/yui_combo.php?m\/1515167977\/","combine":true,"comboBase":"https:\/\/moodle.augsburg.edu\/moodle2017\/theme\/yui_combo.php?","ext":false,"root":"m\/1515167977\/","patterns":{"moodle-":{"group":"moodle","configFn":yui2ConfigFn}},"filter":null,"modules":{"moodle-core-actionmenu":{"requires":["base","event","node-event-simulate"]},"moodle-core-blocks":{"requires":["base","node","io","dom","dd","dd-scroll","moodle-core-dragdrop","moodle-core-notification"]},"moodle-core-checknet":{"requires":["base-base","moodle-core-notification-alert","io-base"]},"moodle-core-chooserdialogue":{"requires":["base","panel","moodle-core-notification"]},"moodle-core-dock":{"requires":["base","node","event-custom","event-mouseenter","event-resize","escape","moodle-core-dock-loader","moodle-core-event"]},"moodle-core-dock-loader":{"requires":["escape"]},"moodle-core-dragdrop":{"requires":["base","node","io","dom","dd","event-key","event-focus","moodle-core-notification"]},"moodle-core-event":{"requires":["event-custom"]},"moodle-core-formchangechecker":{"requires":["base","event-focus","moodle-core-event"]},"moodle-core-handlebars":{"condition":{"trigger":"handlebars","when":"after"}},"moodle-core-languninstallconfirm":{"requires":["base","node","moodle-core-notification-confirm","moodle-core-notification-alert"]},"moodle-core-lockscroll":{"requires":["plugin","base-build"]},"moodle-core-maintenancemodetimer":{"requires":["base","node"]},"moodle-core-notification":{"requires":["moodle-core-notification-dialogue","moodle-core-notification-alert","moodle-core-notification-confirm","moodle-core-notification-exception","moodle-core-notification-ajaxexception"]},"moodle-core-notification-dialogue":{"requires":["base","node","panel","escape","event-key","dd-plugin","moodle-core-widget-focusafterclose","moodle-core-lockscroll"]},"moodle-core-notification-alert":{"requires":["moodle-core-notification-dialogue"]},"moodle-core-notification-confirm":{"requires":["moodle-core-notification-dialogue"]},"moodle-core-notification-exception":{"requires":["moodle-core-notification-dialogue"]},"moodle-core-notification-ajaxexception":{"requires":["moodle-core-notification-dialogue"]},"moodle-core-popuphelp":{"requires":["moodle-core-tooltip"]},"moodle-core-tooltip":{"requires":["base","node","io-base","moodle-core-notification-dialogue","json-parse","widget-position","widget-position-align","event-outside","cache-base"]},"moodle-core_availability-form":{"requires":["base","node","event","event-delegate","panel","moodle-core-notification-dialogue","json"]},"moodle-backup-backupselectall":{"requires":["node","event","node-event-simulate","anim"]},"moodle-backup-confirmcancel":{"requires":["node","node-event-simulate","moodle-core-notification-confirm"]},"moodle-course-categoryexpander":{"requires":["node","event-key"]},"moodle-course-dragdrop":{"requires":["base","node","io","dom","dd","dd-scroll","moodle-core-dragdrop","moodle-core-notification","moodle-course-coursebase","moodle-course-util"]},"moodle-course-formatchooser":{"requires":["base","node","node-event-simulate"]},"moodle-course-management":{"requires":["base","node","io-base","moodle-core-notification-exception","json-parse","dd-constrain","dd-proxy","dd-drop","dd-delegate","node-event-delegate"]},"moodle-course-modchooser":{"requires":["moodle-core-chooserdialogue","moodle-course-coursebase"]},"moodle-course-util":{"requires":["node"],"use":["moodle-course-util-base"],"submodules":{"moodle-course-util-base":{},"moodle-course-util-section":{"requires":["node","moodle-course-util-base"]},"moodle-course-util-cm":{"requires":["node","moodle-course-util-base"]}}},"moodle-form-dateselector":{"requires":["base","node","overlay","calendar"]},"moodle-form-passwordunmask":{"requires":[]},"moodle-form-shortforms":{"requires":["node","base","selector-css3","moodle-core-event"]},"moodle-form-showadvanced":{"requires":["node","base","selector-css3"]},"moodle-question-chooser":{"requires":["moodle-core-chooserdialogue"]},"moodle-question-preview":{"requires":["base","dom","event-delegate","event-key","core_question_engine"]},"moodle-question-qbankmanager":{"requires":["node","selector-css3"]},"moodle-question-searchform":{"requires":["base","node"]},"moodle-availability_completion-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_date-form":{"requires":["base","node","event","io","moodle-core_availability-form"]},"moodle-availability_grade-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_group-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_grouping-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_profile-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-qtype_ddimageortext-dd":{"requires":["node","dd","dd-drop","dd-constrain"]},"moodle-qtype_ddimageortext-form":{"requires":["moodle-qtype_ddimageortext-dd","form_filepicker"]},"moodle-qtype_ddmarker-dd":{"requires":["node","event-resize","dd","dd-drop","dd-constrain","graphics"]},"moodle-qtype_ddmarker-form":{"requires":["moodle-qtype_ddmarker-dd","form_filepicker","graphics","escape"]},"moodle-qtype_ddwtos-dd":{"requires":["node","dd","dd-drop","dd-constrain"]},"moodle-mod_assign-history":{"requires":["node","transition"]},"moodle-mod_attendance-groupfilter":{"requires":["base","node"]},"moodle-mod_forum-subscriptiontoggle":{"requires":["base-base","io-base"]},"moodle-mod_quiz-autosave":{"requires":["base","node","event","event-valuechange","node-event-delegate","io-form"]},"moodle-mod_quiz-dragdrop":{"requires":["base","node","io","dom","dd","dd-scroll","moodle-core-dragdrop","moodle-core-notification","moodle-mod_quiz-quizbase","moodle-mod_quiz-util-base","moodle-mod_quiz-util-page","moodle-mod_quiz-util-slot","moodle-course-util"]},"moodle-mod_quiz-modform":{"requires":["base","node","event"]},"moodle-mod_quiz-questionchooser":{"requires":["moodle-core-chooserdialogue","moodle-mod_quiz-util","querystring-parse"]},"moodle-mod_quiz-quizbase":{"requires":["base","node"]},"moodle-mod_quiz-quizquestionbank":{"requires":["base","event","node","io","io-form","yui-later","moodle-question-qbankmanager","moodle-core-notification-dialogue"]},"moodle-mod_quiz-randomquestion":{"requires":["base","event","node","io","moodle-core-notification-dialogue"]},"moodle-mod_quiz-repaginate":{"requires":["base","event","node","io","moodle-core-notification-dialogue"]},"moodle-mod_quiz-toolboxes":{"requires":["base","node","event","event-key","io","moodle-mod_quiz-quizbase","moodle-mod_quiz-util-slot","moodle-core-notification-ajaxexception"]},"moodle-mod_quiz-util":{"requires":["node","moodle-core-actionmenu"],"use":["moodle-mod_quiz-util-base"],"submodules":{"moodle-mod_quiz-util-base":{},"moodle-mod_quiz-util-slot":{"requires":["node","moodle-mod_quiz-util-base"]},"moodle-mod_quiz-util-page":{"requires":["node","moodle-mod_quiz-util-base"]}}},"moodle-mod_scheduler-delselected":{"requires":["base","node","event"]},"moodle-mod_scheduler-studentlist":{"requires":["base","node","event","io"]},"moodle-mod_scheduler-saveseen":{"requires":["base","node","event"]},"moodle-message_airnotifier-toolboxes":{"requires":["base","node","io"]},"moodle-filter_glossary-autolinker":{"requires":["base","node","io-base","json-parse","event-delegate","overlay","moodle-core-event","moodle-core-notification-alert","moodle-core-notification-exception","moodle-core-notification-ajaxexception"]},"moodle-filter_mathjaxloader-loader":{"requires":["moodle-core-event"]},"moodle-editor_atto-editor":{"requires":["node","transition","io","overlay","escape","event","event-simulate","event-custom","node-event-html5","node-event-simulate","yui-throttle","moodle-core-notification-dialogue","moodle-core-notification-confirm","moodle-editor_atto-rangy","handlebars","timers","querystring-stringify"]},"moodle-editor_atto-plugin":{"requires":["node","base","escape","event","event-outside","handlebars","event-custom","timers","moodle-editor_atto-menu"]},"moodle-editor_atto-menu":{"requires":["moodle-core-notification-dialogue","node","event","event-custom"]},"moodle-editor_atto-rangy":{"requires":[]},"moodle-report_eventlist-eventfilter":{"requires":["base","event","node","node-event-delegate","datatable","autocomplete","autocomplete-filters"]},"moodle-report_loglive-fetchlogs":{"requires":["base","event","node","io","node-event-delegate"]},"moodle-gradereport_grader-gradereporttable":{"requires":["base","node","event","handlebars","overlay","event-hover"]},"moodle-gradereport_history-userselector":{"requires":["escape","event-delegate","event-key","handlebars","io-base","json-parse","moodle-core-notification-dialogue"]},"moodle-tool_capability-search":{"requires":["base","node"]},"moodle-tool_lp-dragdrop-reorder":{"requires":["moodle-core-dragdrop"]},"moodle-tool_monitor-dropdown":{"requires":["base","event","node"]},"moodle-assignfeedback_editpdf-editor":{"requires":["base","event","node","io","graphics","json","event-move","event-resize","transition","querystring-stringify-simple","moodle-core-notification-dialog","moodle-core-notification-alert","moodle-core-notification-exception","moodle-core-notification-ajaxexception"]},"moodle-atto_accessibilitychecker-button":{"requires":["color-base","moodle-editor_atto-plugin"]},"moodle-atto_accessibilityhelper-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_align-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_bold-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_charmap-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_chemistry-button":{"requires":["moodle-editor_atto-plugin","moodle-core-event","io","event-valuechange","tabview","array-extras"]},"moodle-atto_clear-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_collapse-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_emoticon-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_equation-button":{"requires":["moodle-editor_atto-plugin","moodle-core-event","io","event-valuechange","tabview","array-extras"]},"moodle-atto_fullscreen-button":{"requires":["event-resize","moodle-editor_atto-plugin"]},"moodle-atto_hr-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_html-button":{"requires":["moodle-editor_atto-plugin","event-valuechange"]},"moodle-atto_htmlplus-codemirror":{"requires":["moodle-atto_htmlplus-codemirror-skin"]},"moodle-atto_htmlplus-beautify":{},"moodle-atto_htmlplus-button":{"requires":["moodle-editor_atto-plugin","moodle-atto_htmlplus-beautify","moodle-atto_htmlplus-codemirror","event-valuechange"]},"moodle-atto_image-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_imagedragdrop-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_indent-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_italic-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_link-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_managefiles-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_managefiles-usedfiles":{"requires":["node","escape"]},"moodle-atto_media-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_noautolink-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_orderedlist-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_poodll-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_rtl-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_strike-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_structure-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_subscript-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_superscript-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_table-button":{"requires":["moodle-editor_atto-plugin","moodle-editor_atto-menu","event","event-valuechange"]},"moodle-atto_title-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_underline-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_undo-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-atto_unorderedlist-button":{"requires":["moodle-editor_atto-plugin"]},"moodle-tinymce_mathslate-snippeteditor":{"requires":["json"]},"moodle-tinymce_mathslate-editor":{"requires":["dd-drag","dd-proxy","dd-drop","event","tabview","io-base","json","moodle-tinymce_mathslate-textool","moodle-tinymce_mathslate-mathjaxeditor"]},"moodle-tinymce_mathslate-dialogue":{"requires":["escape","moodle-local_mathslate-editor","moodle-tinymce_mathslate-editor"]},"moodle-tinymce_mathslate-textool":{"requires":["dd-drag","dd-proxy","dd-drop","event","json"]},"moodle-tinymce_mathslate-mathjaxeditor":{"requires":["moodle-tinymce_mathslate-snippeteditor","dd-drop"]}}},"gallery":{"name":"gallery","base":"https:\/\/moodle.augsburg.edu\/moodle2017\/lib\/yuilib\/gallery\/","combine":true,"comboBase":"https:\/\/moodle.augsburg.edu\/moodle2017\/theme\/yui_combo.php?","ext":false,"root":"gallery\/1515167977\/","patterns":{"gallery-":{"group":"gallery"}}}},"modules":{"core_filepicker":{"name":"core_filepicker","fullpath":"https:\/\/moodle.augsburg.edu\/moodle2017\/lib\/javascript.php\/1515167977\/repository\/filepicker.js","requires":["base","node","node-event-simulate","json","async-queue","io-base","io-upload-iframe","io-form","yui2-treeview","panel","cookie","datatable","datatable-sort","resize-plugin","dd-plugin","escape","moodle-core_filepicker","moodle-core-notification-dialogue"]},"core_comment":{"name":"core_comment","fullpath":"https:\/\/moodle.augsburg.edu\/moodle2017\/lib\/javascript.php\/1515167977\/comment\/comment.js","requires":["base","io-base","node","json","yui2-animation","overlay","escape"]},"mathjax":{"name":"mathjax","fullpath":"https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/mathjax\/2.7.1\/MathJax.js?delayStartupUntil=configured"}}};
+M.yui.loader = {modules: {}};
+
+//]]>
+</script>
+     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body  id="page-mod-resource-view" class="format-topcoll  path-mod path-mod-resource dir-ltr lang-en_us yui-skin-sam yui3-skin-sam moodle-augsburg-edu--moodle2017 pagelayout-incourse course-1337 context-158266 cmid-94535 category-13 two-column has-region-side-pre used-region-side-pre side-pre-only">
+
+<div class="skiplinks">
+    <a href="#maincontent" class="skip">Skip to main content</a>
+</div><script type="text/javascript" src="https://moodle.augsburg.edu/moodle2017/theme/yui_combo.php?rollup/3.17.2/yui-moodlesimple-min.js"></script><script type="text/javascript" src="https://moodle.augsburg.edu/moodle2017/lib/javascript.php/1515167977/lib/javascript-static.js"></script>
+<script type="text/javascript" src="https://moodle.augsburg.edu/moodle2017/theme/javascript.php/augsburg/1516043685/head"></script>
+<script type="text/javascript">
+//<![CDATA[
+document.body.className += ' jsenabled';
+//]]>
+</script>
+
+
+<div id="page" class="container-fluid">
+
+	<div id="page-header-wrapper" class="clearfix">
+    <header id="page-header" class="clearfix mycontainer">
+    <div class="topheader clearfix">
+                <div class="span4" id="logoholder">        
+			<a href="http://inside.augsburg.edu">
+			<img src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/theme/1516043685/logo2" id="logo">
+			</a>
+			</div>
+		
+	
+	<div class="span5 pull-right">
+	 <div class="navbar">
+    <nav role="navigation" class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="nav-collapse collapse pull-right">
+                <ul class="nav"><li><a title="Courses 2017-18" href="https://moodle.augsburg.edu/moodle2017/">Courses 2017-18</a></li><li><a title="Community" href="https://augnet.augsburg.edu/protected/moodlecommunity" target="newpage"">Community</a></li><li><a title="All Years" href="http://moodle.augsburg.edu" target="newpage2"">All Years</a></li><li><a title="TechDesk" href="http://www.augsburg.edu/techdesk" target="newpage3"">TechDesk</a></li></ul>            </div>
+        </div>
+    </nav>
+</div>
+	</div>
+	
+	</div>
+    
+    <div class="underheader clearfix row">
+    
+    <div class="span8 ctitle">
+       Programming Languages and Compilers II (CSC451_2017SEM2-A)    </div>
+    
+    <div class="headermenu span3 pull-right">
+<div class="usermenu"><div class="moodle-actionmenu nowrap-items" id="action-menu-0" data-enhance="moodle-core-actionmenu">
+
+        <ul class="menubar" id="action-menu-0-menubar" role="menubar">
+
+            <!--
+
+            --><!--
+
+            --><li role="presentation"><a href="#" class="toggle-display textmenu" id="action-menu-toggle-0" title="" role="menuitem"><span class="userbutton"><span class="usertext">Nikaylah Woody</span><span class="avatars"><span class="avatar current"><img src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/u/f2" alt="Picture of Nikaylah Woody" title="Picture of Nikaylah Woody" class="userpicture defaultuserpic" width="35" height="35" role="presentation" /></span></span></span><b class="caret"></b></a>
+</li>
+
+        </ul>
+
+
+        <ul class="menu  align-tr-br" id="action-menu-0-menu" data-rel="menu-content" aria-labelledby="action-menu-toggle-0" role="menu" data-align="tr-br">
+            <li role="presentation">    <a href="https://moodle.augsburg.edu/moodle2017/my/" class="icon menu-action" role="menuitem"data-title="mymoodle,admin" aria-labelledby="actionmenuaction-1"><img class="icon " alt="Dashboard" title="Dashboard" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/dashboard" /><span class="menu-action-text" id="actionmenuaction-1">Dashboard</span></a>
+
+
+
+
+
+</li><li role="presentation">
+<span class="filler">&nbsp;</span>
+
+
+
+</li><li role="presentation">    <a href="https://moodle.augsburg.edu/moodle2017/user/profile.php?id=4483" class="icon menu-action" role="menuitem"data-title="profile,moodle" aria-labelledby="actionmenuaction-2"><img class="icon " alt="Profile" title="Profile" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/user" /><span class="menu-action-text" id="actionmenuaction-2">Profile</span></a>
+
+
+
+
+
+</li><li role="presentation">    <a href="https://moodle.augsburg.edu/moodle2017/grade/report/overview/index.php" class="icon menu-action" role="menuitem"data-title="grades,grades" aria-labelledby="actionmenuaction-3"><img class="icon " alt="Grades" title="Grades" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/t/grades" /><span class="menu-action-text" id="actionmenuaction-3">Grades</span></a>
+
+
+
+
+
+</li><li role="presentation">    <a href="https://moodle.augsburg.edu/moodle2017/user/preferences.php" class="icon menu-action" role="menuitem"data-title="preferences,moodle" aria-labelledby="actionmenuaction-4"><img class="icon " alt="Preferences" title="Preferences" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/t/preferences" /><span class="menu-action-text" id="actionmenuaction-4">Preferences</span></a>
+
+
+
+
+
+</li><li role="presentation">
+<span class="filler">&nbsp;</span>
+
+
+
+</li><li role="presentation">    <a href="https://moodle.augsburg.edu/moodle2017/login/logout.php?sesskey=Kcqp3U1esR" class="icon menu-action" role="menuitem"data-title="logout,moodle" aria-labelledby="actionmenuaction-5"><img class="icon " alt="Log out" title="Log out" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/a/logout" /><span class="menu-action-text" id="actionmenuaction-5">Log out</span></a>
+
+
+
+
+
+</li>
+        </ul>
+</div></div>    </div> 
+    
+    </div>               
+
+        <div id="course-header">
+                    </div>
+    </header>
+    </div>
+    
+
+
+        <div id="page-content" class="row-fluid">
+     <div id="page-navbar" class="clearfix mycontainer">
+            <nav class="breadcrumb-button"></nav>
+            <span class="accesshide" id="navbar-label">Page path</span><nav aria-labelledby="navbar-label"><ul class="breadcrumb"><li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="https://moodle.augsburg.edu/moodle2017/my/"><span itemprop="title">Dashboard</span></a></span> <span class="divider"> <span class="accesshide " ><span class="arrow_text">/</span>&nbsp;</span><span class="arrow sep">&#x25BA;</span> </span></li><li><span tabindex="0">My courses</span> <span class="divider"> <span class="accesshide " ><span class="arrow_text">/</span>&nbsp;</span><span class="arrow sep">&#x25BA;</span> </span></li><li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" title="   Programming Languages and Compilers II (CSC451_2017SEM2-A)" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337"><span itemprop="title">CSC451_2017SEM2-A</span></a></span> <span class="divider"> <span class="accesshide " ><span class="arrow_text">/</span>&nbsp;</span><span class="arrow sep">&#x25BA;</span> </span></li><li><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-1"><span itemprop="title">9, 11 January 2018</span></a></span> <span class="divider"> <span class="accesshide " ><span class="arrow_text">/</span>&nbsp;</span><span class="arrow sep">&#x25BA;</span> </span></li><li><a href="https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=94535" id="label_5_32" class=""  tabindex="-1"  title="File" >Simple pascal</a></li></ul></nav>    </div>
+    	
+    	<div class="mycontainer"> 
+        <section id="region-main" class="span9 pull-right">
+        	<div id="padder">
+            <span class="notifications" id="user-notifications"></span><div role="main"><span id="maincontent"></span><h2>Simple pascal</h2><div class="resourceworkaround">Click <a href="https://moodle.augsburg.edu/moodle2017/pluginfile.php/158266/mod_resource/content/1/simple.pas" onclick="this.target='_blank'">simple.pas</a> link to view the file.</div></div>            </div>
+        </section>
+        <aside id="block-region-side-pre" class="span3 desktop-first-column block-region" data-blockregion="side-pre" data-droptarget="1"><a class="skip skip-block" id="fsb-2" href="#sb-2">Skip Navigation</a><div id="inst2" class="block_navigation  block" role="navigation" data-block="navigation" data-instanceid="2" aria-labelledby="instance-2-header"><div class="header"><div class="title"><div class="block_action"></div><h2 id="instance-2-header">Navigation</h2></div></div><div class="content"><ul class="block_tree list" role="tree" data-ajax-loader="block_navigation/nav_loader"><li class="type_unknown depth_1 contains_branch" aria-labelledby="label_1_1"><p class="tree_item branch canexpand navigation_node" role="treeitem" aria-expanded="true" aria-owns="random5a7b5fcbe63931_group" data-collapsible="false"><a tabindex="-1" id="label_1_1" href="https://moodle.augsburg.edu/moodle2017/my/">Dashboard</a></p><ul id="random5a7b5fcbe63931_group" role="group"><li class="type_setting depth_2 item_with_icon" aria-labelledby="label_2_2"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_2_2" href="https://moodle.augsburg.edu/moodle2017/?redirect=0"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">Site home</span></a></p></li><li class="type_course depth_2 contains_branch" aria-labelledby="label_2_3"><p class="tree_item branch" role="treeitem" aria-expanded="false" aria-owns="random5a7b5fcbe63933_group"><span tabindex="-1" id="label_2_3" title="Augsburg Moodle">Site pages</span></p><ul id="random5a7b5fcbe63933_group" role="group" aria-hidden="true"><li class="type_unknown depth_3 item_with_icon" aria-labelledby="label_3_5"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_3_5" href="https://moodle.augsburg.edu/moodle2017/blog/index.php"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">Site blogs</span></a></p></li><li class="type_custom depth_3 item_with_icon" aria-labelledby="label_3_6"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_3_6" href="https://moodle.augsburg.edu/moodle2017/badges/view.php?type=1"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">Site badges</span></a></p></li><li class="type_setting depth_3 item_with_icon" aria-labelledby="label_3_7"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_3_7" href="https://moodle.augsburg.edu/moodle2017/tag/search.php"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">Tags</span></a></p></li><li class="type_custom depth_3 item_with_icon" aria-labelledby="label_3_8"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_3_8" href="https://moodle.augsburg.edu/moodle2017/calendar/view.php?view=month"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">Calendar</span></a></p></li><li class="type_activity depth_3 item_with_icon" aria-labelledby="label_3_10"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_3_10" title="Forum" href="https://moodle.augsburg.edu/moodle2017/mod/forum/view.php?id=38005"><img class="icon navicon" alt="Forum" title="Forum" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/forum/1516043685/icon" /><span class="item-content-wrap">Site announcements</span></a></p></li></ul></li><li class="type_system depth_2 contains_branch" aria-labelledby="label_2_11"><p class="tree_item branch canexpand" role="treeitem" aria-expanded="true" aria-owns="random5a7b5fcbe63939_group"><span tabindex="-1" id="label_2_11">My courses</span></p><ul id="random5a7b5fcbe63939_group" role="group"><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_12"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_32" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_32" data-node-key="32" data-node-type="20"><a tabindex="-1" id="label_3_12" title="   Graphic Design Production: Illustrator (ART125_2017SEM1-B)
+" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=32">ART125_2017SEM1-B</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_13"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_37" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_37" data-node-key="37" data-node-type="20"><a tabindex="-1" id="label_3_13" title="   Introduction to Graphic Design (ART201_2017SEM1-B)
+" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=37">ART201_2017SEM1-B</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_14"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_1188" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_1188" data-node-key="1188" data-node-type="20"><a tabindex="-1" id="label_3_14" title="  Introduction to Web Design (ART215_2017SEM2-A)" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1188">ART215_2017SEM2-A</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_15"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_3864" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_3864" data-node-key="3864" data-node-type="20"><a tabindex="-1" id="label_3_15" title="  Independent Study (ART499_2017SEM2-CH2)" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=3864">ART499_2017SEM2-CH2</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_16"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_81" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_81" data-node-key="81" data-node-type="20"><a tabindex="-1" id="label_3_16" title="   Augsburg Experience - Non-credit Internship (AUGEX3_2017SEM1-A)
+" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=81">AUGEX3_2017SEM1-A</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_17"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_192" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_192" data-node-key="192" data-node-type="20"><a tabindex="-1" id="label_3_17" title="    Principles of Computer Organization (CSC345_2017SEM1-B) [hybrid]
+" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=192">CSC345_2017SEM1-B</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_18"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_3565" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_3565" data-node-key="3565" data-node-type="20"><a tabindex="-1" id="label_3_18" title="  Topic: Human Computer Interaction (CSC395_2017SEM2-A)" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=3565">CSC395_2017SEM2-A</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_19"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_3855" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_3855" data-node-key="3855" data-node-type="20"><a tabindex="-1" id="label_3_19" title="  Internship (CSC396_2017SEM2-ES)" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=3855">CSC396_2017SEM2-ES</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_20"><p class="tree_item branch" role="treeitem" id="expandable_branch_20_194" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_20_194" data-node-key="194" data-node-type="20"><a tabindex="-1" id="label_3_20" title="    Programming Languages and Compilers I (CSC450_2017SEM1-A)
+" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=194">CSC450_2017SEM1-A</a></p></li><li class="type_course depth_3 contains_branch" aria-labelledby="label_3_21"><p class="tree_item branch canexpand" role="treeitem" aria-expanded="true" aria-owns="random5a7b5fcbe639310_group"><a tabindex="-1" id="label_3_21" title="   Programming Languages and Compilers II (CSC451_2017SEM2-A)" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337">CSC451_2017SEM2-A</a></p><ul id="random5a7b5fcbe639310_group" role="group"><li class="type_unknown depth_4 contains_branch" aria-labelledby="label_4_22"><p class="tree_item branch" role="treeitem" aria-expanded="false" aria-owns="random5a7b5fcbe639311_group"><a tabindex="-1" id="label_4_22" href="https://moodle.augsburg.edu/moodle2017/user/index.php?id=1337">Participants</a></p><ul id="random5a7b5fcbe639311_group" role="group" aria-hidden="true"><li class="type_setting depth_5 item_with_icon" aria-labelledby="label_5_23"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_5_23" href="https://moodle.augsburg.edu/moodle2017/blog/index.php?courseid=1337"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">Course blogs</span></a></p></li><li class="type_user depth_5 item_with_icon" aria-labelledby="label_5_24"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_5_24" href="https://moodle.augsburg.edu/moodle2017/user/view.php?id=4483&amp;course=1337"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">Nikaylah Woody</span></a></p></li></ul></li><li class="type_setting depth_4 item_with_icon" aria-labelledby="label_4_25"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_4_25" href="https://moodle.augsburg.edu/moodle2017/badges/view.php?type=2&amp;id=1337"><img class="icon navicon" alt="Badges" title="Badges" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/badge" /><span class="item-content-wrap">Badges</span></a></p></li><li class="type_setting depth_4 item_with_icon" aria-labelledby="label_4_26"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_4_26" href="https://moodle.augsburg.edu/moodle2017/admin/tool/lp/coursecompetencies.php?courseid=1337"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/competencies" /><span class="item-content-wrap">Competencies</span></a></p></li><li class="type_setting depth_4 item_with_icon" aria-labelledby="label_4_27"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_4_27" href="https://moodle.augsburg.edu/moodle2017/grade/report/index.php?id=1337"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/grades" /><span class="item-content-wrap">Grades</span></a></p></li><li class="type_structure depth_4 contains_branch" aria-labelledby="label_4_28"><p class="tree_item branch" role="treeitem" id="expandable_branch_30_20117" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_30_20117" data-node-key="20117" data-node-type="30"><a tabindex="-1" id="label_4_28" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-0">General</a></p></li><li class="type_structure depth_4 contains_branch" aria-labelledby="label_4_29"><p class="tree_item branch" role="treeitem" aria-expanded="true" aria-owns="random5a7b5fcbe639317_group"><a tabindex="-1" id="label_4_29" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-1">9, 11 January 2018</a></p><ul id="random5a7b5fcbe639317_group" role="group"><li class="type_activity depth_5 item_with_icon" aria-labelledby="label_5_30"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_5_30" title="Assignment" href="https://moodle.augsburg.edu/moodle2017/mod/assign/view.php?id=94533"><img class="icon navicon" alt="Assignment" title="Assignment" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/assign/1516043685/icon" /><span class="item-content-wrap">Compiler beginnings: test your Scanner</span></a></p></li><li class="type_activity depth_5 item_with_icon" aria-labelledby="label_5_31"><p class="tree_item hasicon" role="treeitem"><a href="https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=94534" id="label_5_31" class=""  tabindex="-1"  title="File" ><img class="icon navicon" alt="File" title="File" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/f/text-24" /><span class="item-content-wrap">Simplest pascal</span></a></p></li><li class="type_activity depth_5 item_with_icon current_branch" aria-labelledby="label_5_32"><p class="tree_item hasicon active_tree_node" role="treeitem"><a href="https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=94535" id="label_5_32" class=""  tabindex="-1"  title="File" ><img class="icon navicon" alt="File" title="File" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/f/text-24" /><span class="item-content-wrap">Simple pascal</span></a></p></li><li class="type_activity depth_5 item_with_icon" aria-labelledby="label_5_33"><p class="tree_item hasicon" role="treeitem"><a href="https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=125839" id="label_5_33" class=""  tabindex="-1"  title="File" ><img class="icon navicon" alt="File" title="File" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/f/sourcecode-24" /><span class="item-content-wrap">Temp.java, the temperature conversion class.</span></a></p></li><li class="type_activity depth_5 item_with_icon" aria-labelledby="label_5_34"><p class="tree_item hasicon" role="treeitem"><a href="https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=125840" id="label_5_34" class=""  tabindex="-1"  title="File" ><img class="icon navicon" alt="File" title="File" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/f/sourcecode-24" /><span class="item-content-wrap">TempTest.java, the unit test for Temp.java</span></a></p></li></ul></li><li class="type_structure depth_4 contains_branch" aria-labelledby="label_4_35"><p class="tree_item branch" role="treeitem" id="expandable_branch_30_20119" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_30_20119" data-node-key="20119" data-node-type="30"><a tabindex="-1" id="label_4_35" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-2">16, 18 January 2018</a></p></li><li class="type_structure depth_4 contains_branch" aria-labelledby="label_4_36"><p class="tree_item branch" role="treeitem" id="expandable_branch_30_20120" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_30_20120" data-node-key="20120" data-node-type="30"><a tabindex="-1" id="label_4_36" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-3">23, 25 January 2018</a></p></li><li class="type_structure depth_4 contains_branch" aria-labelledby="label_4_37"><p class="tree_item branch" role="treeitem" id="expandable_branch_30_20121" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_30_20121" data-node-key="20121" data-node-type="30"><a tabindex="-1" id="label_4_37" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-4">30 January, 1 February 2018</a></p></li><li class="type_structure depth_4 contains_branch" aria-labelledby="label_4_38"><p class="tree_item branch" role="treeitem" id="expandable_branch_30_20122" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_30_20122" data-node-key="20122" data-node-type="30"><a tabindex="-1" id="label_4_38" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-5">6, 8 February 2018</a></p></li><li class="type_structure depth_4 contains_branch" aria-labelledby="label_4_39"><p class="tree_item branch" role="treeitem" id="expandable_branch_30_20123" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_30_20123" data-node-key="20123" data-node-type="30"><a tabindex="-1" id="label_4_39" href="https://moodle.augsburg.edu/moodle2017/course/view.php?id=1337#section-6">13, 15 February 2018</a></p></li></ul></li><li class="type_custom depth_3 item_with_icon" aria-labelledby="label_3_42"><p class="tree_item hasicon" role="treeitem"><a tabindex="-1" id="label_3_42" href="https://moodle.augsburg.edu/moodle2017/course/index.php#"><img class="icon navicon" alt="" src="https://moodle.augsburg.edu/moodle2017/theme/image.php/augsburg/core/1516043685/i/navigationitem" /><span class="item-content-wrap">More...</span></a></p></li></ul></li><li class="type_system depth_2 contains_branch" aria-labelledby="label_2_43"><p class="tree_item branch" role="treeitem" id="expandable_branch_0_courses" aria-expanded="false" data-requires-ajax="true" data-loaded="false" data-node-id="expandable_branch_0_courses" data-node-key="courses" data-node-type="0"><a tabindex="-1" id="label_2_43" href="https://moodle.augsburg.edu/moodle2017/course/index.php">Courses</a></p></li></ul></li></ul></div></div><span class="skip-block-to" id="sb-2"></span></aside>    </div>
+    </div>
+
+    <footer id="page-footer">
+        <div id="course-footer"></div>
+        <div class="logininfowrap clearfix">
+        <div class="logininfo">You are logged in as <a href="https://moodle.augsburg.edu/moodle2017/user/profile.php?id=4483" title="View profile">Nikaylah Woody</a> (<a href="https://moodle.augsburg.edu/moodle2017/login/logout.php?sesskey=Kcqp3U1esR">Log out</a>)</div>        
+        <p class="helplink"></p>
+        </div>
+        
+        
+        <div class="info container2 clearfix">
+        <ul class="copyright">
+
+<li>Moodle 3.3.1 | 2017 Augsburg University | Minneapolis, MN | 612-330-1000</li></ul>
+        </div>
+        
+    </footer>
+
+    <script type="text/javascript">
+//<![CDATA[
+var require = {
+    baseUrl : 'https://moodle.augsburg.edu/moodle2017/lib/requirejs.php/1515167977/',
+    // We only support AMD modules with an explicit define() statement.
+    enforceDefine: true,
+    skipDataMain: true,
+    waitSeconds : 0,
+
+    paths: {
+        jquery: 'https://moodle.augsburg.edu/moodle2017/lib/javascript.php/1515167977/lib/jquery/jquery-3.1.0.min',
+        jqueryui: 'https://moodle.augsburg.edu/moodle2017/lib/javascript.php/1515167977/lib/jquery/ui-1.12.1/jquery-ui.min',
+        jqueryprivate: 'https://moodle.augsburg.edu/moodle2017/lib/javascript.php/1515167977/lib/requirejs/jquery-private'
+    },
+
+    // Custom jquery config map.
+    map: {
+      // '*' means all modules will get 'jqueryprivate'
+      // for their 'jquery' dependency.
+      '*': { jquery: 'jqueryprivate' },
+
+      // 'jquery-private' wants the real jQuery module
+      // though. If this line was not here, there would
+      // be an unresolvable cyclic dependency.
+      jqueryprivate: { jquery: 'jquery' }
+    }
+};
+
+//]]>
+</script>
+<script type="text/javascript" src="https://moodle.augsburg.edu/moodle2017/lib/javascript.php/1515167977/lib/requirejs/require.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+require(['core/first'], function() {
+;
+require(["media_videojs/loader"], function(loader) {
+    loader.setUp(function(videojs) {
+        videojs.options.flash.swf = "https://moodle.augsburg.edu/moodle2017/media/player/videojs/videojs/video-js.swf";
+videojs.addLanguage("en",{
+ "Play": "Play",
+ "Pause": "Pause",
+ "Current Time": "Current Time",
+ "Duration Time": "Duration Time",
+ "Remaining Time": "Remaining Time",
+ "Stream Type": "Stream Type",
+ "LIVE": "LIVE",
+ "Loaded": "Loaded",
+ "Progress": "Progress",
+ "Fullscreen": "Fullscreen",
+ "Non-Fullscreen": "Non-Fullscreen",
+ "Mute": "Mute",
+ "Unmute": "Unmute",
+ "Playback Rate": "Playback Rate",
+ "Subtitles": "Subtitles",
+ "subtitles off": "subtitles off",
+ "Captions": "Captions",
+ "captions off": "captions off",
+ "Chapters": "Chapters",
+ "Close Modal Dialog": "Close Modal Dialog",
+ "Descriptions": "Descriptions",
+ "descriptions off": "descriptions off",
+ "Audio Track": "Audio Track",
+ "You aborted the media playback": "You aborted the media playback",
+ "A network error caused the media download to fail part-way.": "A network error caused the media download to fail part-way.",
+ "The media could not be loaded, either because the server or network failed or because the format is not supported.": "The media could not be loaded, either because the server or network failed or because the format is not supported.",
+ "The media playback was aborted due to a corruption problem or because the media used features your browser did not support.": "The media playback was aborted due to a corruption problem or because the media used features your browser did not support.",
+ "No compatible source was found for this media.": "No compatible source was found for this media.",
+ "The media is encrypted and we do not have the keys to decrypt it.": "The media is encrypted and we do not have the keys to decrypt it.",
+ "Play Video": "Play Video",
+ "Close": "Close",
+ "Modal Window": "Modal Window",
+ "This is a modal window": "This is a modal window",
+ "This modal can be closed by pressing the Escape key or activating the close button.": "This modal can be closed by pressing the Escape key or activating the close button.",
+ ", opens captions settings dialog": ", opens captions settings dialog",
+ ", opens subtitles settings dialog": ", opens subtitles settings dialog",
+ ", opens descriptions settings dialog": ", opens descriptions settings dialog",
+ ", selected": ", selected"
+});
+
+    });
+});;
+function legacy_activity_onclick_handler_1(e) { e.halt(); window.open('https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=94534&redirect=1'); return false; };
+function legacy_activity_onclick_handler_2(e) { e.halt(); window.open('https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=94535&redirect=1'); return false; };
+function legacy_activity_onclick_handler_3(e) { e.halt(); window.open('https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=125839&redirect=1'); return false; };
+function legacy_activity_onclick_handler_4(e) { e.halt(); window.open('https://moodle.augsburg.edu/moodle2017/mod/resource/view.php?id=125840&redirect=1'); return false; };
+require(["block_settings/settingsblock"], function(amd) { amd.init("3", null); });;
+
+    require(['core/yui'], function(Y) {
+            Y.on('click', legacy_activity_onclick_handler_1, '#label_5_31', null);
+    });
+;
+
+    require(['core/yui'], function(Y) {
+            Y.on('click', legacy_activity_onclick_handler_2, '#label_5_32', null);
+    });
+;
+
+    require(['core/yui'], function(Y) {
+            Y.on('click', legacy_activity_onclick_handler_3, '#label_5_33', null);
+    });
+;
+
+    require(['core/yui'], function(Y) {
+            Y.on('click', legacy_activity_onclick_handler_4, '#label_5_34', null);
+    });
+;
+require(["block_navigation/navblock"], function(amd) { amd.init("2"); });;
+
+require(['core/yui'], function(Y) {
+    M.util.init_skiplink(Y);
+});
+;
+
+require(['core/yui'], function(Y) {
+    Y.use('moodle-core-actionmenu', function() {
+        M.core.actionmenu.init();
+    });
+});
+;
+
+    require(['core/yui'], function(Y) {
+            Y.on('click', legacy_activity_onclick_handler_2, '#label_5_32', null);
+    });
+;
+require(["core/notification"], function(amd) { amd.init(158266, []); });;
+require(["core/log"], function(amd) { amd.setConfig({"level":"warn"}); });
+});
+//]]>
+</script>
+<script type="text/javascript" src="https://moodle.augsburg.edu/moodle2017/theme/javascript.php/augsburg/1516043685/footer"></script>
+<script type="text/javascript">
+//<![CDATA[
+M.str = {"moodle":{"lastmodified":"Last modified","name":"Name","error":"Error","info":"Information","yes":"Yes","no":"No","viewallcourses":"View all courses","cancel":"Cancel","morehelp":"More help","loadinghelp":"Loading...","confirm":"Confirm","areyousure":"Are you sure?","closebuttontitle":"Close","unknownerror":"Unknown error"},"repository":{"type":"Type","size":"Size","invalidjson":"Invalid JSON string","nofilesattached":"No files attached","filepicker":"File picker","logout":"Logout","nofilesavailable":"No files available","norepositoriesavailable":"Sorry, none of your current repositories can return files in the required format.","fileexistsdialogheader":"File exists","fileexistsdialog_editor":"A file with that name has already been attached to the text you are editing.","fileexistsdialog_filemanager":"A file with that name has already been attached","renameto":"Rename to \"{$a}\"","referencesexist":"There are {$a} alias\/shortcut files that use this file as their source","select":"Select"},"admin":{"confirmdeletecomments":"You are about to delete comments, are you sure?","confirmation":"Confirmation"},"local_fullscreen":{"togglefullscreenmode":"Toggle fullscreen content mode.  (Ctrl + Alt + b)"}};
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+(function() {Y.use("moodle-filter_mathjaxloader-loader",function() {M.filter_mathjaxloader.configure({"mathjaxconfig":"\nMathJax.Hub.Config({\n    config: [\"Accessible.js\", \"Safe.js\"],\n    errorSettings: { message: [\"!\"] },\n    skipStartupTypeset: true,\n    messageStyle: \"none\"\n});\n","lang":"en"});
+});
+Y.on('domready', function() { Y.use("moodle-local_fullscreen-fullscreen",function() {M.local_fullscreen.init_fullscreen({"fullscreenmode":false});
+}); });
+M.util.help_popups.setup(Y);
+Y.use("moodle-core-popuphelp",function() {M.core.init_popuphelp();
+});
+M.util.init_block_hider(Y, {"id":"inst2","title":"Navigation","preference":"block2hidden","tooltipVisible":"Hide Navigation block","tooltipHidden":"Show Navigation block"});
+ M.util.js_pending('random5a7b5fcbe639333'); Y.on('domready', function() { M.util.js_complete("init");  M.util.js_complete('random5a7b5fcbe639333'); });
+})();
+//]]>
+</script>
+
+</div>
+</body>
+</html>

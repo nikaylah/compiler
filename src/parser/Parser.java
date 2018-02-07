@@ -15,7 +15,7 @@ import java.io.StringReader;
 /**
  * @author nikaylahwoody 
  * This parser will recognize whether an input string of
- * tokens is a valid Mini-Pascal program as defined in the grammer
+ * tokens is a valid Mini-Pascal program (which is defined in the grammer)
  */
 public class Parser {
 
@@ -25,7 +25,7 @@ public class Parser {
 
 	// Constructors
 
-	public Parser(String filename) {
+	public Parser(String filename, boolean b) {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(filename);
@@ -45,8 +45,7 @@ public class Parser {
 	// Methods
 
 	/**
-	 * Executes the rule for the program symbol in the expression grammer We
-	 * want to see the program symbol
+	 * executes the rule for the program symbol in the expression grammer to see the program symbol
 	 */
 	public void program() {
 
@@ -121,21 +120,21 @@ public class Parser {
 									match(TokenType.OF);
 									standard_type();
 								} else
-									error("type 6");
+									error("type #6");
 							} else
-								error("type 5");
+								error("type #5");
 						} else
-							error("type 4");
+							error("type #4");
 					} else
-						error("type 3");
+						error("type #3");
 				} else
-					error("type 2");
+					error("type #2");
 			} else
-				error("type 1");
+				error("type #1");
 		} else if (lookahead.getTokenType() == TokenType.INTEGER || lookahead.getTokenType() == TokenType.REAL)
 			standard_type();
 		else
-			error("type 7");
+			error("type #7");
 	}
 
 	public void standard_type() {
@@ -164,321 +163,318 @@ public class Parser {
 
 
 
-		public void subprogram_declaration() {
-			subprogram_head();
-			declarations();
-			subprogram_declarations();
-			compound_statement();
-		}
+	public void subprogram_declaration() {
+		subprogram_head();
+		declarations();
+		subprogram_declarations();
+		compound_statement();
+	}
 
-		public void subprogram_head() {
-			if (lookahead.getTokenType() == TokenType.FUNCTION) {
-				match(TokenType.FUNCTION);
-				if (lookahead.getTokenType() == TokenType.ID) {
-					match(TokenType.ID);
-					arguments();
-					if (lookahead.getTokenType() == TokenType.COLON) {
-						match(TokenType.COLON);
-						standard_type();
-						if (lookahead.getTokenType() == TokenType.SEMICOLON)
-							match(TokenType.SEMICOLON);
-						else
-							error("subprogram_head #4");
-					} else
-						error("subprogram_head #3");
-				} else
-					error("subprogram_head #2");
-			} else if (lookahead.getTokenType() == TokenType.PROCEDURE) {
-				match(TokenType.PROCEDURE);
-				if (lookahead.getTokenType() == TokenType.ID) {
-					match(TokenType.ID);
-					arguments();
+	public void subprogram_head() {
+		if (lookahead.getTokenType() == TokenType.FUNCTION) {
+			match(TokenType.FUNCTION);
+			if (lookahead.getTokenType() == TokenType.ID) {
+				match(TokenType.ID);
+				arguments();
+				if (lookahead.getTokenType() == TokenType.COLON) {
+					match(TokenType.COLON);
+					standard_type();
 					if (lookahead.getTokenType() == TokenType.SEMICOLON)
 						match(TokenType.SEMICOLON);
 					else
-						error("subprogram_head #6");
+						error("subprogram_head #4");
 				} else
-					error("subprogram_head #5");
+					error("subprogram_head #3");
 			} else
-				error("subprogram_head #1");
-		}
+				error("subprogram_head #2");
+		} else if (lookahead.getTokenType() == TokenType.PROCEDURE) {
+			match(TokenType.PROCEDURE);
+			if (lookahead.getTokenType() == TokenType.ID) {
+				match(TokenType.ID);
+				arguments();
+				if (lookahead.getTokenType() == TokenType.SEMICOLON)
+					match(TokenType.SEMICOLON);
+				else
+					error("subprogram_head #6");
+			} else
+				error("subprogram_head #5");
+		} else
+			error("subprogram_head #1");
+	}
 
-		public void arguments() {
+	public void arguments() {
+		if (lookahead.getTokenType() == TokenType.LEFTPARA) {
+			match(TokenType.LEFTPARA);
+			parameter_list();
+			if (lookahead.getTokenType() == TokenType.RIGHTPARA)
+				match(TokenType.RIGHTPARA);
+			else
+				error("arguments");
+		} else {
+			// lambda case
+		}
+	}
+
+
+	public void parameter_list() {
+		if (lookahead.getTokenType() == TokenType.ID) {
+			identifier_list();
+			if (lookahead.getTokenType() == TokenType.COLON) {
+				match(TokenType.COLON);
+				type();
+				if (lookahead.getTokenType() == TokenType.SEMICOLON) {
+					match(TokenType.SEMICOLON);
+					parameter_list();
+				}
+			} else
+				error("parameter_list #1");
+		} else
+			error("parameter_list #3");
+	}
+
+	public void compound_statement() {
+		if (lookahead.getTokenType() == TokenType.BEGIN) {
+			match(TokenType.BEGIN);
+			optional_statements();
+			if (lookahead.getTokenType() == TokenType.END)
+				match(TokenType.END);
+			else
+				error("compound_statement #2");
+		} else
+			error("compound_statement #1");
+	}
+
+	public void optional_statements() {
+		if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.BEGIN || lookahead.getTokenType() == TokenType.IF || lookahead.getTokenType() == TokenType.WHILE)
+			statement_list();
+		else {
+			// Lambda case
+		}
+	}
+
+	public void statement_list() {
+		if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.IF || lookahead.getTokenType() == TokenType.WHILE || lookahead.getTokenType() == TokenType.BEGIN)
+			statement();
+		if (lookahead.getTokenType() == TokenType.SEMICOLON) {
+			match(TokenType.SEMICOLON);
+			statement_list();
+		}
+	}
+
+	public void statement() {
+		if (lookahead.getTokenType() == TokenType.ID) {
+			variable();
+			if (lookahead.getTokenType() == TokenType.ASSIGN)
+				match(TokenType.ASSIGN);
+			else
+				error("statement #1");
+			expression();
+		} else if (lookahead.getTokenType() == TokenType.BEGIN)
+			compound_statement();
+		else if (lookahead.getTokenType() == TokenType.IF) {
+			match(TokenType.IF);
+			expression();
+			if (lookahead.getTokenType() == TokenType.THEN) {
+				match(TokenType.THEN);
+				statement();
+				if (lookahead.getTokenType() == TokenType.ELSE) {
+					match(TokenType.ELSE);
+					statement();
+				} else
+					error("statement #3");
+			} else
+				error("statement #2");
+		} else
+			error("statement #4");
+	}
+
+	public void variable() {
+		if (lookahead.getTokenType() == TokenType.ID) {
+			match(TokenType.ID);
+			if (lookahead.getTokenType() == TokenType.LEFTBRACE) {
+				match(TokenType.LEFTBRACE);
+				expression();
+				if (lookahead.getTokenType() == TokenType.RIGHTBRACE)
+					match(TokenType.RIGHTBRACE);
+				else
+					error("variable #2");
+			}
+
+		} else
+			error("variable #1");
+	}
+
+
+
+
+	public void procedure_statement() {
+		if (lookahead.getTokenType() == TokenType.ID) {
+			match(TokenType.ID);
 			if (lookahead.getTokenType() == TokenType.LEFTPARA) {
 				match(TokenType.LEFTPARA);
-				parameter_list();
+				expression_list();
 				if (lookahead.getTokenType() == TokenType.RIGHTPARA)
 					match(TokenType.RIGHTPARA);
 				else
-					error("arguments");
-			} else {
-				// lambda case
+					error("procedure_statement #2");
+			}
+
+		} else
+			error("procedure_statement #1");
+	}
+
+	public void expression_list() {
+		if (lookahead.getTokenType() == TokenType.PLUS || lookahead.getTokenType() == TokenType.MINUS || lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.NUMBER || lookahead.getTokenType() == TokenType.LEFTPARA || lookahead.getTokenType() == TokenType.NOT) {
+			expression();
+			if (lookahead.getTokenType() == TokenType.COMMA) {
+				match(TokenType.COMMA);
+				expression_list();
 			}
 		}
+	}
 
-
-		public void parameter_list() {
-			if (lookahead.getTokenType() == TokenType.ID) {
-				identifier_list();
-				if (lookahead.getTokenType() == TokenType.COLON) {
-					match(TokenType.COLON);
-					type();
-					if (lookahead.getTokenType() == TokenType.SEMICOLON) {
-						match(TokenType.SEMICOLON);
-						parameter_list();
-					}
-				} else
-					error("parameter_list #1");
-			} else
-				error("parameter_list #3");
-		}
-
-		public void compound_statement() {
-			if (lookahead.getTokenType() == TokenType.BEGIN) {
-				match(TokenType.BEGIN);
-				optional_statements();
-				if (lookahead.getTokenType() == TokenType.END)
-					match(TokenType.END);
-				else
-					error("compound_statement #2");
-			} else
-				error("compound_statement #1");
-		}
-
-		public void optional_statements() {
-			if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.BEGIN || lookahead.getTokenType() == TokenType.IF || lookahead.getTokenType() == TokenType.WHILE)
-				statement_list();
-			else {
-				// Lambda case
-			}
-		}
-
-		public void statement_list() {
-			if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.IF || lookahead.getTokenType() == TokenType.WHILE || lookahead.getTokenType() == TokenType.BEGIN)
-				statement();
-			if (lookahead.getTokenType() == TokenType.SEMICOLON) {
-				match(TokenType.SEMICOLON);
-				statement_list();
-			}
-		}
-
-		public void statement() {
-			if (lookahead.getTokenType() == TokenType.ID) {
-				variable();
-				if (lookahead.getTokenType() == TokenType.ASSIGN)
-					match(TokenType.ASSIGN);
-				else
-					error("statement #1");
-				expression();
-			} else if (lookahead.getTokenType() == TokenType.BEGIN)
-				compound_statement();
-			else if (lookahead.getTokenType() == TokenType.IF) {
-				match(TokenType.IF);
-				expression();
-				if (lookahead.getTokenType() == TokenType.THEN) {
-					match(TokenType.THEN);
-					statement();
-					if (lookahead.getTokenType() == TokenType.ELSE) {
-						match(TokenType.ELSE);
-						statement();
-					} else
-						error("statement #3");
-				} else
-					error("statement #2");
-			} else
-				error("statement #4");
-		}
-
-		public void variable() {
-			if (lookahead.getTokenType() == TokenType.ID) {
-				match(TokenType.ID);
-				if (lookahead.getTokenType() == TokenType.LEFTBRACE) {
-					match(TokenType.LEFTBRACE);
-					expression();
-					if (lookahead.getTokenType() == TokenType.RIGHTBRACE)
-						match(TokenType.RIGHTBRACE);
-					else
-						error("variable #2");
-				}
-
-			} else
-				error("variable #1");
-		}
-
-
-
-
-		public void procedure_statement() {
-			if (lookahead.getTokenType() == TokenType.ID) {
-				match(TokenType.ID);
-				if (lookahead.getTokenType() == TokenType.LEFTPARA) {
-					match(TokenType.LEFTPARA);
-					expression_list();
-					if (lookahead.getTokenType() == TokenType.RIGHTPARA)
-						match(TokenType.RIGHTPARA);
-					else
-						error("procedure_statement #2");
-				}
-
-			} else
-				error("procedure_statement #1");
-		}
-
-		public void expression_list() {
-			if (lookahead.getTokenType() == TokenType.PLUS || lookahead.getTokenType() == TokenType.MINUS || lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.NUMBER || lookahead.getTokenType() == TokenType.LEFTPARA || lookahead.getTokenType() == TokenType.NOT) {
-				expression();
-				if (lookahead.getTokenType() == TokenType.COMMA) {
-					match(TokenType.COMMA);
-					expression_list();
-				}
-			}
-		}
-
-		// How do we match relop??
-		public void expression() {
-			if (lookahead.getTokenType() == TokenType.PLUS || lookahead.getTokenType() == TokenType.MINUS || lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.NUMBER || lookahead.getTokenType() == TokenType.LEFTPARA || lookahead.getTokenType() == TokenType.NOT) {
-				simple_expression();
-				if (isRelOp(lookahead.getTokenType())) {
-					match(lookahead.getTokenType());
-					simple_expression();
-				}
-			}
-		}
-
-		public void simple_expression() {
-			if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.NUMBER || lookahead.getTokenType() == TokenType.LEFTPARA || lookahead.getTokenType() == TokenType.NOT) {
-				term();
-				simple_part();
-			} else if (lookahead.getTokenType() == TokenType.PLUS || lookahead.getTokenType() == TokenType.MINUS) {
-				sign();
-				term();
-				simple_part();
-			}
-		}
-
-		// How do we match addop??
-		public void simple_part() {
-			if (isAddOp(lookahead.getTokenType())) {
+	public void expression() {
+		if (lookahead.getTokenType() == TokenType.PLUS || lookahead.getTokenType() == TokenType.MINUS || lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.NUMBER || lookahead.getTokenType() == TokenType.LEFTPARA || lookahead.getTokenType() == TokenType.NOT) {
+			simple_expression();
+			if (isRelOp(lookahead.getTokenType())) {
 				match(lookahead.getTokenType());
-				term();
-				simple_part();
-			} else {
-				// lambda case
+				simple_expression();
 			}
 		}
+	}
 
-		public void term() {
+	public void simple_expression() {
+		if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.NUMBER || lookahead.getTokenType() == TokenType.LEFTPARA || lookahead.getTokenType() == TokenType.NOT) {
+			term();
+			simple_part();
+		} else if (lookahead.getTokenType() == TokenType.PLUS || lookahead.getTokenType() == TokenType.MINUS) {
+			sign();
+			term();
+			simple_part();
+		}
+	}
+
+	public void simple_part() {
+		if (isAddOp(lookahead.getTokenType())) {
+			match(lookahead.getTokenType());
+			term();
+			simple_part();
+		} else {
+			// lambda case
+		}
+	}
+
+	public void term() {
+		factor();
+		term_part();
+	}
+
+	public void term_part() {
+		if (isMulOp(lookahead.getTokenType())) {
+			match(lookahead.getTokenType());
 			factor();
 			term_part();
+		} else {
+			// lambda case
 		}
+	}
 
-		// How do we match mulop??
-		public void term_part() {
-			if (isMulOp(lookahead.getTokenType())) {
-				match(lookahead.getTokenType());
-				factor();
-				term_part();
-			} else {
-				// lambda case
-			}
-		}
-
-		public void factor() {
-			if (lookahead.getTokenType() == TokenType.ID) {
-				match(TokenType.ID);
-				if (lookahead.getTokenType() == TokenType.LEFTBRACE) {
-					match(TokenType.LEFTBRACE);
-					expression();
-					if (lookahead.getTokenType() == TokenType.RIGHTBRACE) {
-						match(TokenType.RIGHTBRACE);
-					} else
-						error("factor #1");
-				} else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
-					match(TokenType.LEFTPARA);
-					expression_list();
-					if (lookahead.getTokenType() == TokenType.RIGHTPARA)
-						match(TokenType.RIGHTPARA);
-					else
-						error("factor #2");
-				}
-			} else if (lookahead.getTokenType() == TokenType.NUMBER)
-				match(TokenType.NUMBER);
-			else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
-				match(TokenType.LEFTPARA);
+	public void factor() {
+		if (lookahead.getTokenType() == TokenType.ID) {
+			match(TokenType.ID);
+			if (lookahead.getTokenType() == TokenType.LEFTBRACE) {
+				match(TokenType.LEFTBRACE);
 				expression();
+				if (lookahead.getTokenType() == TokenType.RIGHTBRACE) {
+					match(TokenType.RIGHTBRACE);
+				} else
+					error("factor #1");
+			} else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
+				match(TokenType.LEFTPARA);
+				expression_list();
 				if (lookahead.getTokenType() == TokenType.RIGHTPARA)
 					match(TokenType.RIGHTPARA);
 				else
-					error("factor #3");
-			} else if (lookahead.getTokenType() == TokenType.NOT) {
-				match(TokenType.NOT);
-				factor();
-			} else
-				error("factor #4");
-		}
-
-		public void sign() {
-			if (lookahead.getTokenType() == TokenType.PLUS)
-				match(TokenType.PLUS);
-			else if (lookahead.getTokenType() == TokenType.MINUS)
-				match(TokenType.MINUS);
-			else
-				error("sign");
-		}
-
-
-		public boolean isRelOp(TokenType t) {
-			if (t == TokenType.EQUAL || t == TokenType.NOTEQUAL || t == TokenType.LESSTHAN || t == TokenType.LESSTHANEQUAL || t == TokenType.GREATERTHANEQUAL || t == TokenType.GREATERTHAN)
-				return true;
-			return false;
-		}
-
-		public boolean isAddOp(TokenType t) {
-			if (t == TokenType.PLUS || t == TokenType.MINUS || t == TokenType.OR)
-				return true;
-			return false;
-		}
-
-		public boolean isMulOp(TokenType t) {
-			if (t == TokenType.ASTERISK || t == TokenType.SLASH || t == TokenType.DIV || t == TokenType.MOD || t == TokenType.AND)
-				return true;
-			return false;
-		}
-
-		/**
-		 * matches the expected token
-		 *
-		 * @param expected the expected tokenType.
-		 */
-		public void match(TokenType expected) {
-			System.out.println("Match " + expected + " " + lookahead.getLexeme());
-			if (this.lookahead.getTokenType() == expected) {
-				try {
-					this.lookahead = scanner.nextToken();
-					if (this.lookahead == null) {
-						this.lookahead = new Token("End of File", null, 0); //*****
-					}
-				} catch (IOException ex) {
-					error("Scanner exception");
-				}
-			} else {
-				error("Match of " + expected + " found " + this.lookahead.getTokenType()
-				+ " instead.");
+					error("factor #2");
 			}
-		}
-
-		/**
-		 * Prints an error message and then exits the program.
-		 *
-		 * @param message prints error message
-		 */
-		public void error(String message) {
-			System.out.println("Error " + message);
-			System.exit(1);
-		}
-
-
-
-
-
+		} else if (lookahead.getTokenType() == TokenType.NUMBER)
+			match(TokenType.NUMBER);
+		else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
+			match(TokenType.LEFTPARA);
+			expression();
+			if (lookahead.getTokenType() == TokenType.RIGHTPARA)
+				match(TokenType.RIGHTPARA);
+			else
+				error("factor #3");
+		} else if (lookahead.getTokenType() == TokenType.NOT) {
+			match(TokenType.NOT);
+			factor();
+		} else
+			error("factor #4");
 	}
+
+	public void sign() {
+		if (lookahead.getTokenType() == TokenType.PLUS)
+			match(TokenType.PLUS);
+		else if (lookahead.getTokenType() == TokenType.MINUS)
+			match(TokenType.MINUS);
+		else
+			error("sign");
+	}
+
+
+	public boolean isRelOp(TokenType t) {
+		if (t == TokenType.EQUAL || t == TokenType.NOTEQUAL || t == TokenType.LESSTHAN || t == TokenType.LESSTHANEQUAL || t == TokenType.GREATERTHANEQUAL || t == TokenType.GREATERTHAN)
+			return true;
+		return false;
+	}
+
+	public boolean isAddOp(TokenType t) {
+		if (t == TokenType.PLUS || t == TokenType.MINUS || t == TokenType.OR)
+			return true;
+		return false;
+	}
+
+	public boolean isMulOp(TokenType t) {
+		if (t == TokenType.ASTERISK || t == TokenType.SLASH || t == TokenType.DIV || t == TokenType.MOD || t == TokenType.AND)
+			return true;
+		return false;
+	}
+
+	/**
+	 * matches the expected token
+	 *
+	 * @param expected the expected tokenType.
+	 */
+	public void match(TokenType expected) {
+		System.out.println("Match " + expected + " " + lookahead.getLexeme());
+		if (this.lookahead.getTokenType() == expected) {
+			try {
+				this.lookahead = scanner.nextToken();
+				if (this.lookahead == null) {
+					this.lookahead = new Token("End of File", null, 0); //*****
+				}
+			} catch (IOException ex) {
+				error("Scanner exception");
+			}
+		} else {
+			error("Match of " + expected + " found " + this.lookahead.getTokenType()
+			+ " instead.");
+		}
+	}
+
+	/**
+	 * prints an error message then exits the program.
+	 *
+	 * @param message prints error message
+	 */
+	public void error(String message) {
+		System.out.println("Error " + message);
+		System.exit(1);
+	}
+
+
+
+
+
+}
