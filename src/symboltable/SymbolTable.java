@@ -3,6 +3,10 @@ package symboltable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import scanner.TokenType;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Stack;
 
 /**
  * @author nikaylahwoody
@@ -10,40 +14,49 @@ import java.util.HashMap;
  */
 public class SymbolTable {
 
-
-	private HashMap<String, Symbol> symbTable;
+//Instance variables-----------------------------------
+	protected HashMap<String, Symbol> symbTable;
 
 	public SymbolTable() {
 		symbTable = new HashMap<>();
 	}
 
-	public boolean addProgram(String name, Kind k) {
+//Constructor----------------------------------------
+	
+	public String toString(){
+		return "SymbolTable{" + "symbTable" + symbTable + '}';
+	}
+	
+	
+//----------------------------------------------------------------
+//Methods
+	public boolean addProgram(String name) {
 		if (!symbTable.containsKey(name)) {
-			symbTable.put(name, new Symbol("program", k));
+			symbTable.put(name, new Symbol(name, Kind.PROGRAM));
 			return true;
 		}
 		return false;
 	}
 
-	public boolean addVariable(String name, Kind k, String type) {
+	public boolean addVariable(String name,TokenType type) {
 		if (!symbTable.containsKey(name)) {
-			symbTable.put(name, new Symbol("var", k, type));
+			symbTable.put(name, new Symbol(name, Kind.VARIABLE, type));
 			return true;
 		}
 		return false;
 	}
 
-	public boolean addArray(String name, Kind k, String type, int begin, int end) {
+	public boolean addArray(String name, TokenType type, int begin, int end) {
 		if (!symbTable.containsKey(name)) {
-			symbTable.put(name, new Symbol("var", k, type, begin, end));
+			symbTable.put(name, new Symbol(name, Kind.ARRAY));
 			return true;
 		}
 		return false;
 	}
 
-	public boolean addFunction(String name, Kind k, String type, ArrayList<Symbol> args) {
+	public boolean addFunction(String name, TokenType type) {
 		if (!symbTable.containsKey(name)) {
-			symbTable.put(name, new Symbol("var", k, type, args));
+			symbTable.put(name, new Symbol(name, Kind.FUNCTION));
 			return true;
 		}
 		return false;
@@ -69,13 +82,18 @@ public class SymbolTable {
 		return false;
 	}
 
-	private enum Kind {
+	public enum Kind {
 		PROGRAM, VARIABLE, ARRAY, FUNCTION
 	}	
-	private class Symbol {
+	
+	/**
+	 * @author nikaylahwoody
+	 *
+	 */
+	public class Symbol {
 		String lexeme;
 		Kind kind;
-		String type;
+		TokenType type;
 		int beginidx, endidx;
 		ArrayList<Symbol> args;
 
@@ -85,14 +103,14 @@ public class SymbolTable {
 			kind = k;
 		}	
 		// for variable
-		public Symbol(String lex, Kind k, String t) {
+		public Symbol(String lex, Kind k, TokenType t) {
 			lexeme = lex;
 			kind = k;
 			type = t;
 		}
 
 		// for array
-		public Symbol(String lex, Kind k, String t, int begin, int end) {
+		public Symbol(String lex, Kind k, TokenType t, int begin, int end) {
 			lexeme = lex;
 			kind = k;
 			type = t;
@@ -100,7 +118,7 @@ public class SymbolTable {
 			endidx = end;
 		}	
 		// for function
-		public Symbol(String lex, Kind k, String t, ArrayList funcArgs) {
+		public Symbol(String lex, Kind k, TokenType t, ArrayList funcArgs) {
 			lexeme = lex;
 			kind = k;
 			type = t;
@@ -110,8 +128,45 @@ public class SymbolTable {
 		public Kind getKind() {
 			return kind;
 		}
+		
+		public String getLexeme(){
+			return lexeme;
+		}
+		
+		public TokenType getType(){
+			return type;
+		}
+		
+		public int getBeginidx(){
+			return beginidx;
+		}
+		
+		public int getEndidx(){
+			return endidx;
+		}
+		
+		public ArrayList getArgs(){
+			return args;
+		}
+		
 
+		@Override
+		public String toString() {
+			return "Symbol [lexeme=" + lexeme + ", kind=" + kind + ", type=" + type + ", beginidx=" + beginidx
+					+ ", endidx=" + endidx + ", args=" + args + "]";
+		}
+	
+		public boolean equals(Object o){
+			if (this == o)
+				return true;
+			if(o == null || getClass() != o.getClass())
+				return false;
+			Symbol symbol = (Symbol) o;
+			return getBeginidx() == symbol.getBeginidx() && getEndidx() == symbol.getEndidx() && Objects.equals(getLexeme(), symbol.getLexeme()) && Objects.equals(getType(), symbol.getType()) && getKind() == symbol.getKind() && Objects.equals(getArgs(), symbol.getArgs()); 
+		}
+		
 	}
 
+	
 
 }

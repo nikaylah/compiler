@@ -1,10 +1,15 @@
 package symboltable;
 
-import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import scanner.Token;
+
+import org.junit.After;
+import org.junit.Before;
+
+import org.junit.jupiter.api.Test;
 import scanner.TokenType;
-import symboltable.SymbolTable;
+import symboltable.SymbolTable.Kind;
+import symboltable.SymbolTable.Symbol;
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.*;
@@ -18,8 +23,8 @@ public class SymbolTableTest {
   /**
   * adding functions, variables, arrays and programs to created symbol table before each test
   */
-
- void adding() {
+@Before
+ void setUp() {
      symbolTable = new SymbolTable();
 
      //adding several function id's
@@ -45,11 +50,12 @@ public class SymbolTableTest {
      symbolTable.addProgram("program3");
 
      //adding ids to procedure
-     symbolTable.addProcedure("procedure1");
-     symbolTable.addProcedure("procedure2");
-     symbolTable.addProcedure("procedure3");
+     symbolTable.addProgram("procedure1");
+     symbolTable.addProgram("procedure2");
+     symbolTable.addProgram("procedure3");
  }
 
+ 
 
  /**
   * Testing adding two programs to the symbol table
@@ -71,6 +77,12 @@ public class SymbolTableTest {
      System.out.println("program1 not added to symbol table, already exists\n");
  }
 
+ @After
+ void tearDown(){
+	 symbolTable.symbTable.clear();
+	 symbolTable.symbTable = null;
+	 symbolTable = null;
+ }
  /**
   * Testing adding two variables to the symbol table 
   */
@@ -151,7 +163,7 @@ public class SymbolTableTest {
      System.out.println("-------------------------------------------");
      // Add a procedure not already in the symbol table
      String name = "procedure0";
-     boolean result = symbolTable.addProcedure(name);
+     boolean result = symbolTable.addProgram(name);
      assertEquals(true, result);
      System.out.println("procedure0 successfully added to symbol table");
 
@@ -262,17 +274,17 @@ public class SymbolTableTest {
      System.out.println("isProcedureName");
      System.out.println("-------------------------------------------");
      String name = "procedure1";
-     boolean result = symbolTable.isProcedureName(name);
+     boolean result = symbolTable.isProgramName(name);
      assertEquals(true, result);
      System.out.println("procedure1 is a name in the symbol tablwithe and has kind PROGRAM");
 
      name = "variable1";
-     result = symbolTable.isProcedureName(name);
+     result = symbolTable.isProgramName(name);
      assertEquals(false, result);
      System.out.println("variable1 is a name in the symbol table without kind PROCEDURE");
 
      name = "foo";
-     result = symbolTable.isProcedureName(name);
+     result = symbolTable.isProgramName(name);
      assertEquals(false, result);
      System.out.println("foo is a not a name in the symbol table\n");
 }

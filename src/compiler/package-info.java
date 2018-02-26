@@ -5,4 +5,4 @@
  * @author nikaylahwoody
  *
  */
-package scanner;
+package compiler;
