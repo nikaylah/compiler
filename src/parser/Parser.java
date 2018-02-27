@@ -1,8 +1,13 @@
 package parser;
 
+
 import scanner.Scanner;
 import scanner.Token;
 import scanner.TokenType;
+import symboltable.SymbolTable;
+import java.io.*;
+import java.util.ArrayList;
+import static scanner.TokenType.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,10 +27,13 @@ public class Parser {
 	// Instance Variables
 	private Token lookahead;
 	private Scanner scanner;
+	private SymbolTable symTable;
 
 	// Constructors
 
 	public Parser(String filename, boolean b) {
+		
+		symTable = new SymbolTable();
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(filename);
@@ -50,15 +58,15 @@ public class Parser {
 	public void program() {
 
 		match(TokenType.PROGRAM);
+		String name = lookahead.getLexeme();
 		match(TokenType.ID);
+		if (!symTable.addProgram(name)) error("This name already exists in symbol table");
 		match(TokenType.SEMICOLON);
 		// errors should occur if it is not the program token type
 		declarations();
 		subprogram_declarations();
 		compound_statement();
 		match(TokenType.PERIOD);
-
-
 	}
 
 	public void identifier_list() {
@@ -71,7 +79,6 @@ public class Parser {
 			//lambda
 		}
 
-
 	}
 
 	public void declarations() {
@@ -79,7 +86,7 @@ public class Parser {
 			match(TokenType.VAR);
 			identifier_list();
 			match(TokenType.COLON);
-			type();// reevaluate this one
+			type(null);// reevaluate this one
 			match(TokenType.SEMICOLON);
 			declarations();
 		} else{
@@ -87,30 +94,41 @@ public class Parser {
 		}	
 	}
 
-	public void type() {
-
+	public void type(ArrayList<String> idList) {
+		int beginidx, endidx;
 		if(lookahead.getTokenType() == TokenType.INTEGER || lookahead.getTokenType() == TokenType.REAL){
 			standard_type();
 		}else{
 			match(TokenType.ARRAY);
 			match(TokenType.LEFTBRACE);
+			beginidx = Integer.parseInt(lookahead.getLexeme());
 			match(TokenType.NUMBER);
 			match(TokenType.COLON);
+			endidx = Integer.parseInt(lookahead.getLexeme());
 			match(TokenType.NUMBER);
 			match(TokenType.RIGHTBRACE);
 			match(TokenType.OF);
-			standard_type();
+			TokenType t = standard_type();
+			for (String anIdList : idList) {
+				if (!symTable.addArray(anIdList, t, beginidx, endidx)) error("Name already exists in the symbol table");
+			} if (lookahead.getTokenType() == INTEGER || lookahead.getTokenType() == REAL)
+				standard_type();
+			else
+				error("type");
 		}
+		
+		
 
 	}
 
-	public void standard_type() {
+	public TokenType standard_type() {
 		if (lookahead.getTokenType() == TokenType.INTEGER)
 			match(TokenType.INTEGER);
 		else if (lookahead.getTokenType() == TokenType.REAL)
 			match(TokenType.REAL);
 		else
 			error("standard_type");
+		return null;///ummm
 	}
 
 	public void subprogram_declarations() {
@@ -167,7 +185,7 @@ public class Parser {
 	public void parameter_list() {
 		identifier_list();
 		match(TokenType.COLON);
-		type();
+		type(null);//and this one too
 		if (lookahead.getTokenType() == TokenType.SEMICOLON) {
 			match(TokenType.SEMICOLON);
 			parameter_list();
@@ -202,9 +220,14 @@ public class Parser {
 	//where I'm at
 	public void statement() {
 		if (lookahead.getTokenType() == TokenType.ID) {
+			if (symTable.isVariableName(lookahead.getLexeme())){
 			variable();
 			match(TokenType.ASSIGN);
 			expression();
+			}else if (symTable.isProgramName(lookahead.getLexeme())){
+				procedure_statement();
+			}else
+				error("Name not found in symbol table");
 		} else if (lookahead.getTokenType() == TokenType.BEGIN)
 			compound_statement();
 		else if (lookahead.getTokenType() == TokenType.IF) {
