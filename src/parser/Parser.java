@@ -1,10 +1,14 @@
 package parser;
-
+//fix it under sub program declaration and anything that uses the id, us the addfunction, addprocedure and such and such stuff
 
 import scanner.Scanner;
+
 import scanner.Token;
 import scanner.TokenType;
 import symboltable.SymbolTable;
+import syntaxtree.*;
+import syntaxtree.ProgramNode;
+
 import java.io.*;
 import java.util.ArrayList;
 import static scanner.TokenType.*;
@@ -48,6 +52,8 @@ public class Parser {
 		} catch (IOException ex) {
 			error("Scan error");
 		}
+		
+		symTable = new SymbolTable();
 	}
 
 	// Methods
@@ -55,22 +61,40 @@ public class Parser {
 	/**
 	 * executes the rule for the program symbol in the expression grammer to see the program symbol
 	 */
-	public void program() {
+	public ProgramNode program() {
 
 		match(TokenType.PROGRAM);
-		String name = lookahead.getLexeme();
+		String name = lookahead.getLexeme(); //----use this and add it to those 4 stops thats use id
 		match(TokenType.ID);
 		if (!symTable.addProgram(name)) error("This name already exists in symbol table");
 		match(TokenType.SEMICOLON);
 		// errors should occur if it is not the program token type
-		declarations();
-		subprogram_declarations();
-		compound_statement();
+		program.setVariables(declarations());
+		program.setFunctions(subprogram_declarations());
+		program.setMain(compound_statement());
 		match(TokenType.PERIOD);
+		
+		//Will write syntax tree and it symbol table contents into files
+		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new
+
+		FileOutputStream("src/compiler/output/" + name + ".tree"), "utf-8"))){
+			writer.write(program.indentedToString(0));
+		}catch(Exception ex){
+			error("There is a problem with output file.");
+		}
+		
+		try(Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("src/compiler/output/"+name+".table","utf-8")))){
+			
+		}catch (Exception ex){
+			error("Problem with output filr.");
+		}
+		return program;
 	}
 
 	public void identifier_list() {
+		String name = lookahead.getLexeme();
 		match(TokenType.ID);
+		if (!symTable.addProgram(name));
 
 		if (lookahead.getTokenType() == TokenType.COMMA) {
 			match(TokenType.COMMA);
@@ -109,9 +133,7 @@ public class Parser {
 			match(TokenType.RIGHTBRACE);
 			match(TokenType.OF);
 			TokenType t = standard_type();
-			for (String anIdList : idList) {
-				if (!symTable.addArray(anIdList, t, beginidx, endidx)) error("Name already exists in the symbol table");
-			} if (lookahead.getTokenType() == INTEGER || lookahead.getTokenType() == REAL)
+			 if (lookahead.getTokenType() == INTEGER || lookahead.getTokenType() == REAL)
 				standard_type();
 			else
 				error("type");
