@@ -36,4 +36,9 @@ public class DeclarationsNode extends SyntaxTreeNode {
         }
         return answer;
     }
+
+	public void addDeclarations(DeclarationsNode declarations) {
+		// TODO Auto-generated method stub
+		
+	}
 }

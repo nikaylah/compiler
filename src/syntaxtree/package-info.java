@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author nikaylahwoody
- *
- */
-package syntaxtree;

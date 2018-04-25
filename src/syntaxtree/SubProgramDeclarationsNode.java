@@ -11,8 +11,16 @@ public class SubProgramDeclarationsNode extends SyntaxTreeNode {
     
     private ArrayList<SubProgramDeclarationsNode> procs = new ArrayList<SubProgramDeclarationsNode>();
     
-    public void addSubProgramDeclaration( SubProgramDeclarationsNode aSubProgram) {
-        procs.add( aSubProgram);
+    public void addSubProgramDeclaration(SubProgramNode subProgramNode) {
+        procs.add( subProgramNode);
+    }
+    
+    public void addAll(SubProgramDeclarationsNode aSubProgram){
+    	procs.add(aSubProgram);
+    }
+    
+    public ArrayList<SubProgramDeclarationsNode> getProcs(){
+    	return procs;
     }
     
     /**
@@ -21,7 +29,7 @@ public class SubProgramDeclarationsNode extends SyntaxTreeNode {
      * @return A String representing this node.
      */
     @Override
-    public String indentedToString( int level) {
+    public String indentedToString(int level) {
         String answer = this.indentation( level);
         answer += "SubProgramDeclarations\n";
         for( SubProgramDeclarationsNode subProg : procs) {
@@ -29,5 +37,7 @@ public class SubProgramDeclarationsNode extends SyntaxTreeNode {
         }
         return answer;
     }
+    
+  
     
 }
