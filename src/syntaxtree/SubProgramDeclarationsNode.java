@@ -9,17 +9,17 @@ import java.util.ArrayList;
  */
 public class SubProgramDeclarationsNode extends SyntaxTreeNode {
     
-    private ArrayList<SubProgramDeclarationsNode> procs = new ArrayList<SubProgramDeclarationsNode>();
+    private ArrayList<SubProgramNode> procs = new ArrayList<SubProgramNode>();
     
-    public void addSubProgramDeclaration(SubProgramNode subProgramNode) {
-        procs.add( subProgramNode);
+    public void addSubProgramDeclaration(SubProgramNode aSubProgram) {
+        procs.add(aSubProgram);
     }
     
-    public void addAll(SubProgramDeclarationsNode aSubProgram){
-    	procs.add(aSubProgram);
+    public void addAll(ArrayList<SubProgramNode> aSubProgram){
+    	procs.addAll(aSubProgram);
     }
     
-    public ArrayList<SubProgramDeclarationsNode> getProcs(){
+    public ArrayList<SubProgramNode> getProcs(){
     	return procs;
     }
     
@@ -32,10 +32,10 @@ public class SubProgramDeclarationsNode extends SyntaxTreeNode {
     public String indentedToString(int level) {
         String answer = this.indentation( level);
         answer += "SubProgramDeclarations\n";
-        for( SubProgramDeclarationsNode subProg : procs) {
+        for( SubProgramNode subProg : procs) {
             answer += subProg.indentedToString( level + 1);
         }
-        return answer;
+        return answer.toString();
     }
     
   

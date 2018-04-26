@@ -153,7 +153,7 @@ public class Parser {
 if (lookahead.getTokenType() == TokenType.FUNCTION || lookahead.getTokenType() == TokenType.PROCEDURE) {
 	subDecNode.addSubProgramDeclaration(subprogram_declaration());
 	match(TokenType.SEMICOLON);
-	subDecNode.add(subprogram_declarations().getProcs());
+	subDecNode.addAll(subprogram_declarations().getProcs());
 }
 // else lambda case
 return subDecNode;
