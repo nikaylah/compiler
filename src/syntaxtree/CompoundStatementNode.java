@@ -41,4 +41,8 @@ public class CompoundStatementNode extends StatementNode {
         }
         return answer;
     }
+
+	public ArrayList<StatementNode> getStatements() {
+		return null;
+	}
 }

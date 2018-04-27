@@ -25,4 +25,15 @@ public abstract class ExpressionNode extends SyntaxTreeNode {
 	public void setType(TokenType t){
 		this.type = t;
 	}
+
+	public DataType getDataType() {
+		return null;
+	}
+
+	public boolean contains(String string) {
+
+		return false;
+	}
+
+	
 }

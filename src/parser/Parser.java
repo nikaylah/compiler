@@ -94,6 +94,9 @@ public class Parser {
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public DeclarationsNode declarations() {
 		DeclarationsNode declarations = new DeclarationsNode();
 		if (lookahead.getTokenType() == VAR) {
@@ -110,7 +113,13 @@ public class Parser {
 		return declarations;
 	}
 
-
+	/**
+	 * @param idList with an arraylist of names added to symbol table
+	 * @return type
+	 */
+	/**
+	 * @param idList
+	 */
 	public void type(ArrayList<String> idList) {
 		int beginidx, endidx;
 		if (lookahead.getTokenType() == TokenType.INTEGER || lookahead.getTokenType() == TokenType.REAL) {
@@ -126,14 +135,25 @@ public class Parser {
 			match(TokenType.RIGHTBRACE);
 			match(TokenType.OF);
 			TokenType t = standard_type();
-			if (lookahead.getTokenType() == INTEGER || lookahead.getTokenType() == REAL)
-				standard_type();
-			else
+			//symantic
+            for (String anIdList : idList) {
+                if (!symTable.addArray(anIdList, t, beginidx, endidx))
+                    error(anIdList + " already exists in symbol table");
+            }
+			if (lookahead.getTokenType() == INTEGER || lookahead.getTokenType() == REAL){
+			t = standard_type();
+            for (String anIdList : idList) {
+                if (!symTable.addVariable(anIdList, t)) error(anIdList + " already exists in symbol table");
+            }
+			}else
 				error("type");
 		}
 
 	}
 	
+	/**
+	 * @return the declared item type
+	 */
 	public TokenType standard_type() {
 		TokenType t = null;
 		if (lookahead.getTokenType() == INTEGER) {
@@ -148,6 +168,9 @@ public class Parser {
 	}
 
 	
+	/**
+	 * @return subprogramnode for a declared function and procedure
+	 */
 	public SubProgramDeclarationsNode subprogram_declarations() {
         SubProgramDeclarationsNode subDecNode = new SubProgramDeclarationsNode();
 if (lookahead.getTokenType() == TokenType.FUNCTION || lookahead.getTokenType() == TokenType.PROCEDURE) {
@@ -160,6 +183,9 @@ return subDecNode;
 }
 
 
+	/**
+	 * @return subprogramnode for a declared function and procedure
+	 */
 	public SubProgramNode subprogram_declaration() {
 		SubProgramNode subprogramDec = subprogram_head();
 		subprogramDec.setVariables(declarations());
@@ -169,11 +195,15 @@ return subDecNode;
 	}
 
 
+	/**
+	 * @return subprogramnode for a declared function and procedure
+	 */
 	public SubProgramNode subprogram_head() {
 		SubProgramNode subprogramHead = null;
 		if (lookahead.getTokenType() == TokenType.FUNCTION) {
 			match(TokenType.FUNCTION);
 			String funcName = lookahead.getLexeme();
+			if (!symTable.addFunction(funcName, null)) error(funcName + " already exists in symbol table");
 			subprogramHead = new SubProgramNode(funcName);
 			match(TokenType.ID);
 			arguments();
@@ -185,6 +215,7 @@ return subDecNode;
 			match(PROCEDURE);
 			String procedureName = lookahead.getLexeme();
 			subprogramHead = new SubProgramNode(procedureName);
+			if (!symTable.addProcedure(procedureName)) error(procedureName + " already exists in symbol table");
 			match(TokenType.ID);
 			arguments();
 			symTable.addProcedure(procedureName);
@@ -195,28 +226,38 @@ return subDecNode;
 	}
 	
 
-	public void arguments() {
+	/**
+	 * @return
+	 */
+	public ArrayList<VariableNode> arguments() {
+		 ArrayList<VariableNode> args = new ArrayList();
 		if (lookahead.getTokenType() == TokenType.LEFTPARA) {
 			match(TokenType.LEFTPARA);
 			parameter_list();
 			match(TokenType.RIGHTPARA);
 		}
-		// else lambda case
+		return args;
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public ArrayList<VariableNode> parameter_list() {
 		ArrayList<String> idList = identifier_list();
 		ArrayList<VariableNode> args = new ArrayList();
 		match(TokenType.COLON);
 		if (lookahead.getTokenType() == TokenType.SEMICOLON) {
 			match(TokenType.SEMICOLON);
-			parameter_list();
+			args.addAll(parameter_list());
 		}
 		return args;
 	}
 
 
+	/**
+	 * @return compound statement for the function and procedure
+	 */
 	public CompoundStatementNode compound_statement() {
 		CompoundStatementNode compound;
 		match(TokenType.BEGIN);
@@ -226,6 +267,9 @@ return subDecNode;
 	}
 	
 
+	/**
+	 * @return compound statement for the function and procedure
+	 */
 	public CompoundStatementNode optional_statements() {
 		CompoundStatementNode comp = new CompoundStatementNode();
 		if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.BEGIN
@@ -235,6 +279,9 @@ return subDecNode;
 
 	}
 
+	/**
+	 * @return arraylist of statement nodes
+	 */
 	public ArrayList<StatementNode> statement_list() {
 		ArrayList<StatementNode> stateNode = new ArrayList();
 		stateNode.add(statement());
@@ -245,9 +292,13 @@ return subDecNode;
 		return stateNode;
 	}
 
+	/**
+	 * @return state for a statement
+	 */
 	public StatementNode statement() {
 		StatementNode state = null;
 		if (lookahead.getTokenType() == TokenType.ID) {
+			if (!symTable.doesExist(lookahead.getLexeme())) error(lookahead.getLexeme() + " has not been declared");
 			if (symTable.isVariableName(lookahead.getLexeme())) {
 				AssignmentStatementNode assign = new AssignmentStatementNode();
 				assign.setLvalue(variable());
@@ -258,7 +309,7 @@ return subDecNode;
 			} else if (symTable.isProcedureName(lookahead.getLexeme())) {
 				return procedure_statement();
 			} else
-				error("Name not found in symbol table");
+				error(lookahead.getLexeme() + " not found in symbol table.");
 		} else if (lookahead.getTokenType() == TokenType.BEGIN)
 			state = compound_statement();
 		else if (lookahead.getTokenType() == TokenType.IF) {
@@ -271,6 +322,7 @@ return subDecNode;
 			ifNode.setElseStatement(statement());
 
 			return ifNode;
+			
 		} else if (lookahead.getTokenType() == TokenType.WHILE) {
 			WhileStatementNode whileNode = new WhileStatementNode();
 			match(TokenType.WHILE);
@@ -285,6 +337,9 @@ return subDecNode;
 		return state;
 	}
 
+	/**
+	 * @return variable
+	 */
 	public VariableNode variable() {
 		VariableNode variable = new VariableNode(lookahead.getLexeme());
 		match(ID);
@@ -297,6 +352,9 @@ return subDecNode;
 		return variable;
 	}
 
+	/**
+	 * @return procedureStateNode
+	 */
 	public ProcedureStatementNode procedure_statement() {
 		ProcedureStatementNode procedureStateNode = new ProcedureStatementNode();
 		String ProcedureName = lookahead.getLexeme();
@@ -311,6 +369,9 @@ return subDecNode;
 		return procedureStateNode;
 	}
 
+	/**
+	 * @return exressNodeList as an arraylist of expression nodes
+	 */
 	public ArrayList<ExpressionNode> expression_list() {
 		ArrayList<ExpressionNode> exressNodeList = new ArrayList();
 		exressNodeList.add(expression());
@@ -321,10 +382,16 @@ return subDecNode;
 		return exressNodeList;
 	}
 
+	/**
+	 * @return an expression node
+	 */
 	public ExpressionNode expression() {
 		ExpressionNode left = simple_expression();
+		TokenType leftType = left.getType();
 		if (isRelop(lookahead.getTokenType())) {
 			OperationNode operationNode = new OperationNode(lookahead.getTokenType());
+			if (leftType .equals(TokenType.REAL)) operationNode.setType(TokenType.REAL);
+			else operationNode.setType(TokenType.INTEGER);
 			operationNode.setLeft(left);
 			match(lookahead.getTokenType());
 			operationNode.setRight(simple_expression());
@@ -333,6 +400,9 @@ return subDecNode;
 		return left;
 	}
 
+	/**
+	 * @return an expression node
+	 */
 	public ExpressionNode simple_expression() {
 		ExpressionNode express = null;
 		if (lookahead.getTokenType() == TokenType.ID || lookahead.getTokenType() == TokenType.NUMBER
@@ -349,6 +419,10 @@ return subDecNode;
 		return express;
 	}
 
+	/**
+	 * @param an expression node
+	 * @return
+	 */
 	public ExpressionNode simple_part(ExpressionNode positionLeft) {
 		if (isAddop(lookahead.getTokenType())) {
 			OperationNode operation = new OperationNode(lookahead.getTokenType());
@@ -363,11 +437,18 @@ return subDecNode;
 		}
 	}
 
+	/**
+	 * @return an expression node
+	 */
 	public ExpressionNode term() {
 		ExpressionNode left = factor();
 		return term_part(left);
 	}
 
+	/**
+	 * @param posLeft
+	 * @return an expression node
+	 */
 	public ExpressionNode term_part(ExpressionNode posLeft) {
 		if (isMulop(lookahead.getTokenType())) {
 			OperationNode operation = new OperationNode(lookahead.getTokenType());
@@ -381,6 +462,9 @@ return subDecNode;
 
 	}
 
+	/**
+	 * @return expression node
+	 */
 	public ExpressionNode factor() {
 		ExpressionNode express = null;
 		express = new VariableNode(lookahead.getLexeme());
@@ -396,8 +480,12 @@ return subDecNode;
 			expression_list();
 			match(TokenType.RIGHTPARA);
 		} else if (lookahead.getTokenType() == TokenType.NUMBER) {
+			TokenType t;
 			express = new ValueNode(lookahead.getLexeme());
+			if (express.contains(".")) t = TokenType.REAL;
+			else t = TokenType.INTEGER;
 			match(TokenType.NUMBER);
+			return express;
 		}
 
 		else if (lookahead.getTokenType() == TokenType.LEFTPARA) {
@@ -415,6 +503,9 @@ return subDecNode;
 		return express;
 	}
 
+	/**
+	 * @return unaryoperationnode containing not, + or - and the expression
+	 */
 	public UnaryOperationNode sign() {
 		UnaryOperationNode UnaryOPNode = null;
 		if (lookahead.getTokenType() == PLUS) {
@@ -462,6 +553,9 @@ return subDecNode;
 
 	}
 
+	/**
+	 * 
+	 */
 	public void Mulop() {
 		if (lookahead.getTokenType() == TokenType.ASTERISK) {
 			match(TokenType.ASTERISK);
@@ -480,6 +574,10 @@ return subDecNode;
 		}
 	}
 
+	/**
+	 * @param t
+	 * @return
+	 */
 	public boolean isRelop(TokenType t) {
 		if (t == TokenType.EQUAL || t == TokenType.NOTEQUAL || t == TokenType.LESSTHAN || t == TokenType.LESSTHANEQUAL
 				|| t == TokenType.GREATERTHANEQUAL || t == TokenType.GREATERTHAN)

@@ -38,7 +38,10 @@ public class DeclarationsNode extends SyntaxTreeNode {
     }
 
 	public void addDeclarations(DeclarationsNode declarations) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	public ArrayList<VariableNode> getVariable() {
+		return null;
 	}
 }

@@ -27,6 +27,10 @@ public class SymbolTable {
 		return "SymbolTable{" + "symbTable" + symbTable + '}';
 	}
 	
+//	public String toString(){
+//		return "SymbolTable{" + "symbTable" + symbTable + '}';
+//	}
+	
 	
 //----------------------------------------------------------------
 //Methods
@@ -54,9 +58,18 @@ public class SymbolTable {
 		return false;
 	}
 
+	
 	public boolean addFunction(String name, TokenType type) {
 		if (!symbTable.containsKey(name)) {
 			symbTable.put(name, new Symbol(name, Kind.FUNCTION));
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addProcedure(String name){
+		if (!symbTable.containsKey(name)){
+			symbTable.put(name, new Symbol(name, Kind.PROCEDURE));
 			return true;
 		}
 		return false;
@@ -81,9 +94,14 @@ public class SymbolTable {
 		if (symbTable.containsKey(name)) return symbTable.get(name).getKind() == Kind.FUNCTION;
 		return false;
 	}
+	
+	public boolean isProcedureName(String name) {
+		if (symbTable.containsKey(name)) return symbTable.get(name).getKind() == Kind.PROCEDURE;
+		return false;
+	}
 
 	public enum Kind {
-		PROGRAM, VARIABLE, ARRAY, FUNCTION
+		PROGRAM, VARIABLE, ARRAY, FUNCTION, PROCEDURE
 	}	
 	
 	/**
@@ -165,6 +183,12 @@ public class SymbolTable {
 			return getBeginidx() == symbol.getBeginidx() && getEndidx() == symbol.getEndidx() && Objects.equals(getLexeme(), symbol.getLexeme()) && Objects.equals(getType(), symbol.getType()) && getKind() == symbol.getKind() && Objects.equals(getArgs(), symbol.getArgs()); 
 		}
 		
+	}
+
+
+	public boolean doesExist(String lexeme) {
+		
+		return false;
 	}
 
 	

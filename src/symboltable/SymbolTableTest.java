@@ -1,20 +1,22 @@
 package symboltable;
 
-import scanner.Token;
+import scanner.TokenType;
 
 import org.junit.After;
 import org.junit.Before;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import scanner.TokenType;
+
 import symboltable.SymbolTable.Kind;
 import symboltable.SymbolTable.Symbol;
+
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+
 
 public class SymbolTableTest {
 
@@ -28,7 +30,7 @@ public class SymbolTableTest {
      symbolTable = new SymbolTable();
 
      //adding several function id's
-     ArrayList<Symbol> args = new ArrayList();
+     ArrayList<Symbol> args = new ArrayList<Symbol>();
      args.add(new Symbol("input", Kind.VARIABLE, TokenType.INTEGER));
      symbolTable.addFunction("function1", TokenType.REAL);
      symbolTable.addFunction("function2", TokenType.INTEGER);
